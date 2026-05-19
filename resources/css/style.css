@@ -1,0 +1,96 @@
+html,
+body {
+    width: 300px;
+    height: 400px;
+}
+
+.page {
+    text-align: center;
+    margin-bottom: 0;
+
+    .page__servers_action_troubleshoot {
+        font-weight: bold;
+    }
+
+    width: 95%;
+}
+
+.page__tutorial {
+    font-size: 14px;
+}
+
+.page__servers_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 1.25rem;
+    overflow-y: auto;
+    max-height: 40vh;
+}
+
+.page__servers_list_item {
+    display: block;
+    background-color: grey;
+    border-radius: 30px;
+    color: white;
+    font-size: 15px;
+    padding: 4px 10px;
+}
+
+.page__servers_action {
+    position: fixed;
+    bottom: 5%;
+    left: 0;
+    width: 100%;
+}
+
+.page__navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page__navbar_source {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 48px;
+}
+
+.page__title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+
+    &::before {
+        content: "";
+        width: 48px;
+        height: 48px;
+        background: url(../media/icon.png) no-repeat center / contain;
+    }
+
+    &::after {
+        content: "";
+        width: 48px;
+        height: 48px;
+        background: url(../media/source.png) no-repeat center / contain;
+    }
+}
+
+.page__button_fetch_servers {
+    background-color: white;
+    border: 2px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    cursor: pointer;
+    transition: box-shadow 0.1s, transform 0.1s;
+
+    &:active {
+        box-shadow: 1px 1px 0 #333;
+        transform: translate(3px, 3px);
+    }
+}
+

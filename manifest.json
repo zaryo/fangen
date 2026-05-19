@@ -1,0 +1,31 @@
+{
+    "name": "Fangen - Find streaming addresses",
+    "author": "Luiz Miguel(Propfend)",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "permissions": [
+        "scripting",
+        "activeTab",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "description": "Find backend streaming services addresses.",
+    "action": {
+        "default_icon": "resources/media/icon.png",
+        "default_title": "Click me",
+        "default_popup": "templates/index.html"
+    },
+    "icons": {
+        "32": "resources/media/icon.png",
+        "64": "resources/media/icon.png"
+    },
+    "background": {
+        "scripts": [
+            "src/background.js"
+        ],
+        "service_worker": "src/background.js",
+        "type": "module"
+    }
+}
