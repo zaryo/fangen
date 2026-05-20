@@ -22,11 +22,13 @@ jobs:
         with:
           source: browser_extension_manifest
 
-      - name: zip extension
-        run: zip -r fangen.zip manifest.json src/ resources/ templates/
-        shell: bash
+      - id: packExtensionDir
+        uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
+        with:
+          extensionDir: ./
+          zipFilePath: fangen.zip
 
-      - name: pack extension
+      - name: pack fangen
         uses: cardinalby/webext-buildtools-chrome-crx-action@v2
         with:
           zipFilePath: fangen.zip
