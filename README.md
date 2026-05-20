@@ -28,14 +28,15 @@ After that, go to your browser and load the unpacked extension:
 
 Go to a streaming website which you want to discover streaming server addresses. 
 
-<p align="center">
-
 After you play the video, in extension pop-up, click in the "Get streaming servers addresses" button.
 
+<p align="center">
 <img src="https://github.com/user-attachments/assets/1a91b80c-5933-4c61-9313-e80c824905a1" alt="fangen-ui" />
+</p>
 
 After that, the streaming server addresses will show up in the middle, it will show all the available servers, so you can scroll them down.
 
+<p align="center">
 <img src="https://github.com/user-attachments/assets/79b45f24-5d3c-4f3b-a50f-2d0d0895fd24" alt="fangen-ui-with-links" />
 </p>
 
