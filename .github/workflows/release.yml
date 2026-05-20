@@ -17,27 +17,23 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v4
 
-      - uses: zaryo/release-action/match-version@b58fb98ef2d7d01f9150011ef2fe28b6076c21af
+      - name: assert tag
+        uses: zaryo/release-action/match-version@b58fb98ef2d7d01f9150011ef2fe28b6076c21af
         with:
           source: browser_extension_manifest
 
-      - name: install chrome
-        run: |
-          sudo apt-get update -q
-          sudo apt-get install -y google-chrome-stable xvfb
+      - id: packExtensionDir
+        uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
+        with:
+          extensionDir: ./
+          zipFilePath: fangen.zip
 
-      - name: decode extension key
-        run: echo "${{ secrets.EXTENSION_PRIVATE_KEY }}" | base64 -d > /tmp/extension.pem
-        shell: bash
-
-      - name: pack extension
-        run: |
-          xvfb-run google-chrome \
-            --pack-extension="$GITHUB_WORKSPACE" \
-            --pack-extension-key="/tmp/extension.pem" \
-            --no-sandbox
-          mv "${GITHUB_WORKSPACE}.crx" fangen.crx
-        shell: bash
+      - name: pack fangen
+        uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+        with:
+          zipFilePath: fangen.zip
+          crxFilePath: fangen.crx
+          privateKey: ${{ secrets.CHROME_CRX_PRIVATE_KEY }}
 
       - name: upload artifact
         uses: actions/upload-artifact@v4
