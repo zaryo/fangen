@@ -1,4 +1,7 @@
 import truncateUrl from "./truncate_url.js";
+import initializeTheme from "./theme.js";
+
+initializeTheme();
 
 document
   .querySelector(".page__button_fetch_servers")
