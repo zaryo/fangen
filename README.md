@@ -8,7 +8,7 @@ Currently, Fangen has official tested support for the following browsers, althou
 
 - Chrome
 
-## Install:
+## Install
 
 ### Manual installation
 
@@ -24,7 +24,7 @@ After that, go to your browser and load the unpacked extension:
 
 - Chrome: Go to chrome://extensions. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step. 
 
-### Usage: 
+### Usage 
 
 Go to a streaming website which you want to discover streaming server addresses. 
 
@@ -38,6 +38,16 @@ After that, the streaming server addresses will show up in the middle, it will s
 
 <p align="center">
 <img src="https://github.com/user-attachments/assets/79b45f24-5d3c-4f3b-a50f-2d0d0895fd24" alt="fangen-ui-with-links" />
+</p>
+
+### Themes
+
+#### Dark
+
+<p align="center">
+<img src="https://github.com/user-attachments/assets/dd43390c-aca6-44cf-b5eb-fe5f414a4d87" alt="dark-fangen-ui" />
+
+<img src="https://github.com/user-attachments/assets/d5534416-db11-4669-993b-b833125d290c" alt="dark-fangen-ui-with-links" />
 </p>
 
 ### How it works

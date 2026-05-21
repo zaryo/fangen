@@ -108,8 +108,21 @@ body {
     display: block;
     width: 48px;
     height: 48px;
-    background: url(../media/source.png) no-repeat center / contain;
-    background-size: 22; 
+    background: url(../media/source_light_mode.png) no-repeat center / contain;
+}
+
+@media (prefers-color-scheme: dark) {
+    .page__navbar_source {
+        background-image: url(../media/source_dark_mode.png);
+    }
+}
+
+[data-theme="dark"] .page__navbar_source {
+    background-image: url(../media/source_dark_mode.png);
+}
+
+[data-theme="light"] .page__navbar_source {
+    background-image: url(../media/source_light_mode.png);
 }
 
 .page__navbar_theme_toggle {
