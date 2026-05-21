@@ -3,5 +3,5 @@ export default function truncateUrl(url, size) {
 
   const half = Math.trunc(size / 2) + 4;
 
-  return `${url.slice(0, half)}...${url.slice(-half - 4)}`;
+  return `${url.slice(0, half)}...${url.slice(-half - 2)}`;
 }
