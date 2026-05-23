@@ -1,7 +1,9 @@
 export default function truncateUrl(url, size) {
   if (url.length <= size) return url;
 
-  const half = Math.trunc(size / 2) + 4;
+  const available = size - 3;
+  const tail = Math.floor(available / 2);
+  const head = available - tail;
 
-  return `${url.slice(0, half)}...${url.slice(-half - 2)}`;
+  return `${url.slice(0, head)}...${url.slice(-tail)}`;
 }
