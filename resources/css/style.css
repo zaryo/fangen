@@ -1,45 +1,3 @@
-:root {
-    --color-background: #ffffff;
-    --color-text: #000000;
-    --color-link: revert;
-    --color-button-background: #ffffff;
-    --color-button-border: #333333;
-    --color-server-item-background: grey;
-    --color-server-item-text: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: #1e1e1e;
-        --color-text: #e8e8e8;
-        --color-link: #ffd700;
-        --color-button-background: #2d2d2d;
-        --color-button-border: #aaaaaa;
-        --color-server-item-background: #555555;
-        --color-server-item-text: #ffffff;
-    }
-}
-
-[data-theme="dark"] {
-    --color-background: #1e1e1e;
-    --color-text: #e8e8e8;
-    --color-link: #ffd700;
-    --color-button-background: #2d2d2d;
-    --color-button-border: #aaaaaa;
-    --color-server-item-background: #555555;
-    --color-server-item-text: #ffffff;
-}
-
-[data-theme="light"] {
-    --color-background: #ffffff;
-    --color-text: #000000;
-    --color-link: revert;
-    --color-button-background: #ffffff;
-    --color-button-border: #333333;
-    --color-server-item-background: grey;
-    --color-server-item-text: #ffffff;
-}
-
 a {
     color: var(--color-link);
 }
@@ -48,19 +6,25 @@ html,
 body {
     width: 300px;
     height: 400px;
+    margin: 0;
     background-color: var(--color-background);
     color: var(--color-text);
+    display: flex;
+    flex-direction: column;
 }
 
 .page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
     text-align: center;
-    margin-bottom: 0;
+    width: 90%;
+    margin: 0 auto;
 
     .page__servers_action_troubleshoot {
         font-weight: bold;
     }
-
-    width: 95%;
 }
 
 .page__tutorial {
@@ -68,12 +32,16 @@ body {
 }
 
 .page__servers_list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    list-style: none;
     padding-left: 1.25rem;
     overflow-y: auto;
-    max-height: 40vh;
+    flex: 1;
+    min-height: 0;
+}
+
+.page__servers_list li {
+    position: relative;
+    margin-bottom: 10px;
 }
 
 .page__servers_list_item {
@@ -86,10 +54,8 @@ body {
 }
 
 .page__servers_action {
-    position: fixed;
-    bottom: 5%;
-    left: 0;
     width: 100%;
+    margin-bottom: 5%;
 }
 
 .page__navbar {
@@ -174,6 +140,8 @@ body {
     box-shadow: 4px 4px 0 var(--color-button-border);
     color: var(--color-text);
     cursor: pointer;
+    margin-bottom: 3%;
+    padding: 5%;
     transition: box-shadow 0.1s, transform 0.1s;
 
     &:active {
