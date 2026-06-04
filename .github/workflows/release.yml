@@ -28,18 +28,31 @@ jobs:
           extensionDir: ./
           zipFilePath: fangen.zip
 
-      - name: pack fangen
+      - name: pack fangen into crx
         uses: cardinalby/webext-buildtools-chrome-crx-action@v2
         with:
           zipFilePath: fangen.zip
           crxFilePath: fangen.crx
           privateKey: ${{ secrets.CHROME_CRX_PRIVATE_KEY }}
 
-      - name: upload artifact
+      - name: upload crx artifact
         uses: actions/upload-artifact@v4
         with:
           name: fangen.crx
           path: fangen.crx
+
+      - name: pack fangen into xpi
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: build
+          source: ./
+          artifacts: ./dist
+
+      - name: upload xpi artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fangen.xpi
+          path: dist/*.xpi
 
   release:
     name: release

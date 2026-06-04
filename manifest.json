@@ -14,19 +14,18 @@
     "description": "Find backend streaming services addresses.",
     "action": {
         "default_icon": {
-            "32": "resources/media/icon.png",
-            "64": "resources/media/icon.png"
+            "32": "resources/media/icon_32.png",
+            "64": "resources/media/icon_64.png"
         },
         "default_title": "Click me",
         "default_popup": "templates/index.html"
     },
     "icons": {
-        "32": "resources/media/icon.png",
-        "64": "resources/media/icon.png"
+        "32": "resources/media/icon_32.png",
+        "64": "resources/media/icon_64.png"
     },
     "background": {
         "service_worker": "src/background.js",
-        "type": "module",
         "scripts": [
             "src/background.js"
         ]

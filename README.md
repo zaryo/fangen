@@ -22,11 +22,11 @@ git clone https://github.com/zaryo/fangen
 
 After that, go to your browser and load the unpacked extension:
 
-- Chrome: Go to chrome://extensions. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step. 
+- Chrome: Go to chrome://extensions. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step.
 
-### Usage 
+### Usage
 
-Go to a streaming website which you want to discover streaming server addresses. 
+Go to a streaming website which you want to discover streaming server addresses.
 
 After you play the video, in extension pop-up, click in the "Get streaming servers addresses" button.
 
@@ -52,4 +52,4 @@ After that, the streaming server addresses will show up in the middle, it will s
 
 ### How it works
 
-Fangen start a service worker in the background, which listens for the browser requests, which headers are checked against a set of MIME types to verify what establishes persistent connections and storing their origins. Those origins are shown on the button click event. 
+Fangen start a service worker in the background, which listens for the browser requests, which headers are checked against a set of MIME types to verify what establishes persistent connections and storing their origins. Those origins are shown on the button click event.

@@ -10,23 +10,19 @@ const streamingUrls = new Set();
 
 function isStreamingResponse(responseHeaders) {
   const contentType =
-    responseHeaders.find((h) => h.name.toLowerCase() === "content-type")
-      ?.value ?? "";
-  return streamingMimeTypes.some((t) => contentType.toLowerCase().includes(t));
+    responseHeaders.find(
+      (responseHeader) => responseHeader.name.toLowerCase() === "content-type",
+    )?.value ?? "";
+  return streamingMimeTypes.some((responseMimeType) =>
+    contentType.toLowerCase().includes(responseMimeType),
+  );
 }
 
-function logURL(requestDetails) {
+async function handleRequest(requestDetails) {
   if (isStreamingResponse(requestDetails.responseHeaders)) {
-    console.log(`Streaming: ${requestDetails.url}`);
     streamingUrls.add(requestDetails.url);
   }
 }
-
-chrome.webRequest.onHeadersReceived.addListener(
-  logURL,
-  { urls: ["<all_urls>"] },
-  ["responseHeaders"],
-);
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === "getStreamingUrls") {
@@ -34,4 +30,8 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
 });
 
-console.log("Listener registered");
+chrome.webRequest.onHeadersReceived.addListener(
+  handleRequest,
+  { urls: ["<all_urls>"] },
+  ["responseHeaders"],
+);
