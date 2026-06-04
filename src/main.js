@@ -1,5 +1,5 @@
-import truncateUrl from "./truncate_url.js";
 import initializeTheme from "./theme.js";
+import truncateUrl from "./truncate_url.js";
 
 initializeTheme();
 
@@ -10,11 +10,20 @@ document
       type: "getStreamingUrls",
     });
 
-    const list = document.querySelector(".page__servers_list");
-    list.innerHTML = urls
-      .map(
-        (url) =>
-          `<li><a href="${url}" class="page__servers_list_item" target="_blank">${truncateUrl(url, 25)}</a></li>`,
-      )
-      .join("");
+    const backend_url_addresses_list = document.querySelector(
+      ".page__servers_list",
+    );
+
+    backend_url_addresses_list.replaceChildren(
+      ...urls.map((url) => {
+        const backend_url_address = document.createElement("a");
+        backend_url_address.href = url;
+        backend_url_address.className = "page__servers_list_item";
+        backend_url_address.target = "_blank";
+        backend_url_address.textContent = truncateUrl(url, 25);
+        const list_item = document.createElement("li");
+        list_item.appendChild(backend_url_address);
+        return list_item;
+      }),
+    );
   });

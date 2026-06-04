@@ -1,15 +1,15 @@
-const STORAGE_KEY = "theme";
-const DARK_THEME = "dark";
-const LIGHT_THEME = "light";
+const STORAGE_KEY_NAME = "theme";
+const DARK_THEME_NAME = "dark";
+const LIGHT_THEME_NAME = "light";
 
 function systemPreferredTheme() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? DARK_THEME
-    : LIGHT_THEME;
+    ? DARK_THEME_NAME
+    : LIGHT_THEME_NAME;
 }
 
-function resolvedTheme() {
-  return localStorage.getItem(STORAGE_KEY) ?? systemPreferredTheme();
+function getResolvedTheme() {
+  return localStorage.getItem(STORAGE_KEY_NAME) ?? systemPreferredTheme();
 }
 
 function applyTheme(theme) {
@@ -17,13 +17,14 @@ function applyTheme(theme) {
 }
 
 function toggleTheme() {
-  const nextTheme = resolvedTheme() === DARK_THEME ? LIGHT_THEME : DARK_THEME;
-  localStorage.setItem(STORAGE_KEY, nextTheme);
+  const nextTheme =
+    getResolvedTheme() === DARK_THEME_NAME ? LIGHT_THEME_NAME : DARK_THEME_NAME;
+  localStorage.setItem(STORAGE_KEY_NAME, nextTheme);
   applyTheme(nextTheme);
 }
 
 export default function initializeTheme() {
-  applyTheme(resolvedTheme());
+  applyTheme(getResolvedTheme());
 
   document
     .querySelector(".page__navbar_theme_toggle")
@@ -32,7 +33,7 @@ export default function initializeTheme() {
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", () => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
+      if (!localStorage.getItem(STORAGE_KEY_NAME)) {
         applyTheme(systemPreferredTheme());
       }
     });
