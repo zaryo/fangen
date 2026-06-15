@@ -7,6 +7,7 @@ Browser extension to find backend streaming services addresses.
 Currently, Fangen has official tested support for the following browsers, although it might work for others, that is not guaranteed.
 
 - Chrome
+- Firefox
 
 ## Install
 
@@ -22,7 +23,9 @@ git clone https://github.com/zaryo/fangen
 
 After that, go to your browser and load the unpacked extension:
 
-- Chrome: Go to chrome://extensions. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step.
+- Chrome: Navigate to `chrome://extensions`. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step.
+
+- Firefox: Navigate to `about:debugging`. Click `This Firefox` > `Load Temporary Add-on...` and select the `manifest.json` file from the repository you just cloned. 
 
 ### Usage
 
