@@ -25,7 +25,7 @@ After that, go to your browser and load the unpacked extension:
 
 - Chrome: Navigate to `chrome://extensions`. Enable developer mode and press "Load unpacked". Select the repository you just cloned in the previous step.
 
-- Firefox: Navigate to `about:debugging`. Click `This Firefox` > `Load Temporary Add-on` and select the `manifest.json` file from the repository you just cloned. 
+- Firefox: Navigate to `about:debugging`. Click `This Firefox` > `Load Temporary Add-on...` and select the `manifest.json` file from the repository you just cloned. 
 
 ### Usage
 
