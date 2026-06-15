@@ -1,5 +1,5 @@
 import initializeTheme from "./theme.js";
-import truncateUrl from "./truncate_url.js";
+import truncateUrl from "./truncateUrl.js";
 
 initializeTheme();
 

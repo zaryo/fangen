@@ -26,7 +26,24 @@ watch.firefox:
 watch.chrome:
 	npm exec web-ext -- run \
 		-t chromium \
-		--chromium-binary $(CHROMIUM_BINARY) 
+
+.PHONY: watch
+watch: watch.firefox watch.chrome
+
+.PHONY: test.chrome
+test.chrome:
+	CHROME_BINARY=$(CHROME_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/chrome.test.js src/test/truncateUrl.test.js --detectOpenHandles
+
+.PHONY: test.unit
+test.unit:
+	node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose src/test/truncateUrl.test.js
+
+.PHONY: test.firefox
+test.firefox:
+	FIREFOX_BINARY=$(FIREFOX_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/firefox.test.js
+
+.PHONY: test
+test: test.unit test.chrome test.firefox
 
 .PHONY: clean 
 clean:
