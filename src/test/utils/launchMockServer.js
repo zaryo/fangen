@@ -3,10 +3,10 @@ import { setupServer } from "msw/node";
 import http from "node:http";
 import { mimeTypeByExtension } from "../../types/streamingMimeTypes.js";
 
-const INTERNAL_MOCK_ORIGIN = "http://mock.internal";
+const INTERNAL_MOCK_SERVER_ORIGIN = "http://mock.internal";
 
 const streamingRequestHandler = mswHttp.get(
-  `${INTERNAL_MOCK_ORIGIN}/stream/:extension`,
+  `${INTERNAL_MOCK_SERVER_ORIGIN}/stream/:extension`,
   ({ params }) => {
     const mimeType = mimeTypeByExtension.get(params.extension);
 
@@ -21,13 +21,13 @@ const streamingRequestHandler = mswHttp.get(
   },
 );
 
-export function launchMockServer() {
+export default function launchMockServer() {
   const mswServer = setupServer(streamingRequestHandler);
   mswServer.listen({ onUnhandledRequest: "bypass" });
 
   const httpServer = http.createServer(async (req, res) => {
     try {
-      const internalUrl = `${INTERNAL_MOCK_ORIGIN}${req.url}`;
+      const internalUrl = `${INTERNAL_MOCK_SERVER_ORIGIN}${req.url}`;
       const internalResponse = await fetch(internalUrl, { method: req.method });
 
       res.writeHead(

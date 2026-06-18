@@ -1,50 +1,60 @@
 {
-  "name": "Fangen - Find streaming addresses",
-  "author": "Luiz Miguel (Propfend)",
-  "version": "0.0.4",
-  "manifest_version": 3,
-  "permissions": [
-    "scripting",
-    "activeTab",
-    "webRequest",
-    "storage"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
-  "description": "Find backend streaming services addresses.",
-  "action": {
-    "default_icon": {
-      "32": "resources/media/icon_32.png",
-      "64": "resources/media/icon_64.png"
-    },
-    "default_title": "Click me",
-    "default_popup": "templates/index.html"
-  },
-  "icons": {
-    "32": "resources/media/icon_32.png",
-    "64": "resources/media/icon_64.png"
-  },
-  "content_scripts": [
-    {
-      "matches": [
+    "name": "Fangen - Find streaming addresses",
+    "author": "Luiz Miguel (Propfend)",
+    "version": "0.0.4",
+    "manifest_version": 3,
+    "permissions": [
+        "scripting",
+        "activeTab",
+        "webRequest",
+        "storage"
+    ],
+    "host_permissions": [
         "<all_urls>"
-      ],
-      "js": [
-        "src/content.js"
-      ],
-      "run_at": "document_start"
-    }
-  ],
-  "background": {
-    "service_worker": "src/background.js",
-    "scripts": ["src/background.js"],
-    "type": "module"
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "fangen@zaryo.github.io",
-      "strict_min_version": "128.0"
-    }
-  }
+    ],
+    "description": "Find backend streaming services addresses.",
+    "action": {
+        "default_icon": {
+            "32": "resources/media/icon_32.png",
+            "64": "resources/media/icon_64.png"
+        },
+        "default_title": "Fangen - Find streaming addresses",
+        "default_popup": "templates/index.html"
+    },
+    "icons": {
+        "32": "resources/media/icon_32.png",
+        "64": "resources/media/icon_64.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/content.js"
+            ]
+        }
+    ],
+    "background": {
+        "service_worker": "src/background.js",
+        "scripts": [
+            "src/background.js"
+        ],
+        "type": "module"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "fangen@zaryo.github.io",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ],
+                "optional": []
+            }
+        }
+    },
+    "browserslist": [
+        "defaults and fully supports es6-module",
+        "maintained node versions"
+    ]
 }

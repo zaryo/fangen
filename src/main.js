@@ -3,6 +3,11 @@ import truncateUrl from "./truncateUrl.js";
 
 initializeTheme();
 
+chrome.runtime.sendMessage({
+  type: "setLogLevel",
+  data: { logLevel: "info" },
+});
+
 document
   .querySelector(".page__button_fetch_servers")
   .addEventListener("click", async () => {

@@ -13,7 +13,7 @@ import launchMockServer from "./utils/launchMockServer.js";
 import pollForStreamingUrl from "./utils/pollForStreamingUrl.js";
 import toTestName from "./utils/toTestName.js";
 
-jest.setTimeout(30000);
+jest.setTimeout(1800);
 
 let serverHandle;
 
@@ -33,7 +33,7 @@ for (const [extension] of mimeTypeByExtension) {
   const testName = `testIsStreamingResponseWorksFor${toTestName(extension)}`;
 
   test(testName, async () => {
-    const browserHandle = await launchBrowser(Browser.Firefox);
+    const browserHandle = await launchBrowser(Browser.Chromium);
 
     try {
       const targetUrl = serverHandle.urlFor(extension);

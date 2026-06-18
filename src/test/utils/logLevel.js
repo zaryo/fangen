@@ -1,4 +1,5 @@
-export const LogLevel = Object.freeze({
+const LogLevel = Object.freeze({
   Info: "info",
-  Silent: "silent",
 });
+
+export default LogLevel;

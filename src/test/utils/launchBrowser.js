@@ -1,13 +1,13 @@
-import { Browser } from "./browser.js";
-import { launchChrome } from "./launchChrome.js";
-import { launchFirefox } from "./launchFirefox.js";
+import Browser from "./browser.js";
+import launchChromium from "./launchChromium.js";
+import launchFirefox from "./launchFirefox.js";
 
-export async function launchBrowser(browserName, logLevel) {
+export default async function launchBrowser(browserName) {
   switch (browserName) {
-    case Browser.Chrome:
-      return launchChrome(logLevel);
+    case Browser.Chromium:
+      return launchChromium();
     case Browser.Firefox:
-      return launchFirefox(logLevel);
+      return launchFirefox();
     default:
       throw new Error(`Unknown browser: ${browserName}`);
   }

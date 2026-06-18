@@ -1,6 +1,13 @@
 import { streamingMimeTypes } from "./types/streamingMimeTypes.js";
 
 const streamingUrls = new Set();
+let logLevel = "silent";
+
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.logLevel !== undefined) {
+    logLevel = changes.logLevel.newValue ?? "silent";
+  }
+});
 
 function isStreamingResponse(responseHeaders) {
   const contentType =
@@ -15,7 +22,9 @@ function isStreamingResponse(responseHeaders) {
 
 async function logStreamingUrl(url) {
   const logEntry = `[INFO] ${new Date().toISOString()}: Streaming server address found: ${url}`;
+
   console.info(logEntry);
+
   const { infoLogs = [] } = await chrome.storage.local.get("infoLogs");
   await chrome.storage.local.set({ infoLogs: [...infoLogs, logEntry] });
 }
@@ -25,14 +34,10 @@ async function handleRequest(requestDetails) {
 
   streamingUrls.add(requestDetails.url);
 
-  const { logLevel = "silent" } = await chrome.storage.local.get("logLevel");
-
   if (logLevel === "info") {
     await logStreamingUrl(requestDetails.url);
   }
 }
-
-await chrome.storage.local.set({ logLevel: "info" });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === "getStreamingUrls") {
@@ -40,14 +45,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     return;
   }
 
-  if (message.type === "setLogLevel") {
-    chrome.storage.local
-      .set({ logLevel: message.data.logLevel, infoLogs: [] })
-      .then(() => sendResponse({ ok: true }));
-    return true;
-  }
-
-  if (message.type === "getinfoLogs") {
+  if (message.type === "getInfoLogs") {
     chrome.storage.local
       .get("infoLogs")
       .then(({ infoLogs = [] }) => sendResponse({ infoLogs }));

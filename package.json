@@ -4,7 +4,7 @@
         "msw": "^2.14.6",
         "prettier": "3.8.3",
         "prettier-plugin-organize-imports": "4.1.0",
-        "puppeteer": "22.15.0",
+        "puppeteer": "^25.1.0",
         "web-ext": "10.3.0"
     },
     "type": "module",
@@ -16,9 +16,9 @@
         "testMatch": [
             "**/src/test/**/*.test.js"
         ],
-        "setupFilesAfterEnv": [
-            "./src/test/setup.js"
-        ],
         "transform": {}
+    },
+    "dependencies": {
+        "@mdn/browser-compat-data": "^8.0.3"
     }
 }

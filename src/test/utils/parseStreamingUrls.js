@@ -1,4 +1,4 @@
-export function parseStreamingUrls(logs) {
+export default function parseStreamingUrls(logs) {
   const urls = logs
     .map((log) =>
       log.match(/^\[INFO\] .+? Streaming server address found: (.+)$/),

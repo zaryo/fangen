@@ -16,34 +16,34 @@ fmt: node_modules
 
 .PHONY: lint
 lint: node_modules
-	npm exec web-ext -- lint
+	npm exec web-ext -- lint --ignore-files 'src/test/**'
 
 .PHONY: watch.firefox 
 watch.firefox: node_modules 
 	npm exec web-ext -- run 
 
-.PHONY: watch.chrome 
-watch.chrome: node_modules
+.PHONY: watch.chromium 
+watch.chromium: node_modules
 	npm exec web-ext -- run \
 		-t chromium \
 
 .PHONY: watch
-watch: watch.firefox watch.chrome
+watch: watch.firefox watch.chromium
 
 .PHONY: test.unit
 test.unit: node_modules
 	node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose src/test/truncateUrl.test.js
 
-.PHONY: test.chrome
-test.chrome: node_modules
-	CHROME_BINARY=$(CHROME_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/chrome.test.js src/test/truncateUrl.test.js --detectOpenHandles
+.PHONY: test.chromium
+test.chromium: node_modules
+	CHROMIUM_BINARY=$(CHROMIUM_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/chromium.test.js --detectOpenHandles
 
 .PHONY: test.firefox
 test.firefox: node_modules
-	FIREFOX_BINARY=$(FIREFOX_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/firefox.test.js
+	FIREFOX_BINARY=$(FIREFOX_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/firefox.test.js --detectOpenHandles
 
 .PHONY: test
-test: test.unit test.chrome test.firefox
+test: test.unit test.chromium test.firefox
 
 .PHONY: clean 
 clean:
