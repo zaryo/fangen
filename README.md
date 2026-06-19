@@ -34,13 +34,13 @@ Go to a streaming website which you want to discover streaming server addresses.
 After you play the video, in extension pop-up, click on the "Get streaming servers addresses" button.
 Chromium
 <p align="center">
-<img src="https://github.com/user-attachments/assets/1a91b80c-5933-4c61-9313-e80c824905a1" alt="fangen-ui" />
+<img src="https://github.com/user-attachments/assets/2e4052d5-ecea-4c92-90be-6c1d67454107" alt="fangen-ui" />
 </p>
 
 After that, the streaming server addresses will show up in the middle, it will show all the available servers, so you can scroll them down.
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/79b45f24-5d3c-4f3b-a50f-2d0d0895fd24" alt="fangen-ui-with-links" />
+<img src="https://github.com/user-attachments/assets/e998e339-ceb3-4ee4-b061-c673d4b546f4" alt="fangen-ui-with-links" />
 </p>
 
 ### Themes
@@ -48,9 +48,9 @@ After that, the streaming server addresses will show up in the middle, it will s
 #### Dark
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/dd43390c-aca6-44cf-b5eb-fe5f414a4d87" alt="dark-fangen-ui" />
+<img src="https://github.com/user-attachments/assets/edb0de17-cdba-4313-9021-27b279d99223" alt="dark-fangen-ui" />
 
-<img src="https://github.com/user-attachments/assets/d5534416-db11-4669-993b-b833125d290c" alt="dark-fangen-ui-with-links" />
+<img src="https://github.com/user-attachments/assets/7339c461-a861-48ed-ac54-3d33da542ae7" alt="dark-fangen-ui-with-links" />
 </p>
 
 ### Testing
