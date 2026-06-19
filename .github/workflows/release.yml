@@ -48,11 +48,14 @@ jobs:
           source: ./
           artifacts: ./dist
 
+      - name: rename xpi artifact
+        run: mv dist/*.zip dist/fangen.xpi
+
       - name: upload xpi artifact
         uses: actions/upload-artifact@v4
         with:
           name: fangen.xpi
-          path: dist/*.xpi
+          path: dist/fangen.xpi
 
   release:
     name: release
