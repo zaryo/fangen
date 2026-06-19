@@ -18,17 +18,19 @@ fmt: node_modules
 lint: node_modules
 	npm exec web-ext -- lint --ignore-files 'src/test/**'
 
-.PHONY: watch.firefox 
-watch.firefox: node_modules 
-	npm exec web-ext -- run 
+.PHONY: watch.firefox
+watch.firefox: node_modules
+	npm exec web-ext -- run \
+		--firefox=$(FIREFOX_BINARY)
 
-.PHONY: watch.chromium 
+.PHONY: watch.chromium
 watch.chromium: node_modules
 	npm exec web-ext -- run \
 		-t chromium \
+		--chromium-binary=$(CHROMIUM_BINARY)
 
 .PHONY: watch
-watch: watch.firefox watch.chromium
+watch: watch.chromium & watch.firefox 
 
 .PHONY: test.unit
 test.unit: node_modules
