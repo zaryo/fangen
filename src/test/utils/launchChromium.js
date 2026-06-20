@@ -24,7 +24,10 @@ export default async function launchChromium() {
       "--disable-extensions",
       "--disable-component-extensions-with-background-pages",
     ],
-    args: ["--enable-unsafe-extension-debugging"],
+    args: [
+      "--enable-unsafe-extension-debugging",
+      ...(process.env.CI ? ["--no-sandbox", "--disable-setuid-sandbox"] : []),
+    ],
   });
 
   const extensionId = await browser.installExtension(EXTENSION_PATH);
