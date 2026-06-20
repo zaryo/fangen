@@ -41,21 +41,21 @@ jobs:
           name: fangen.crx
           path: fangen.crx
 
-      - name: pack fangen into xpi
+      - name: sign fangen for firefox
         uses: kewisch/action-web-ext@v1
         with:
-          cmd: build
+          cmd: sign
           source: ./
           artifacts: ./dist
-
-      - name: rename xpi artifact
-        run: mv dist/*.zip dist/fangen.xpi
+          channel: unlisted
+          apiKey: ${{ secrets.AMO_JWT_ISSUER }}
+          apiSecret: ${{ secrets.AMO_JWT_SECRET }}
 
       - name: upload xpi artifact
         uses: actions/upload-artifact@v4
         with:
           name: fangen.xpi
-          path: dist/fangen.xpi
+          path: dist/*.xpi
 
   release:
     name: release
