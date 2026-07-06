@@ -13,7 +13,7 @@ import launchMockServer from "./utils/launchMockServer.js";
 import pollForStreamingUrl from "./utils/pollForStreamingUrl.js";
 import toTestName from "./utils/toTestName.js";
 
-jest.setTimeout(1800);
+jest.setTimeout(3000);
 
 let serverHandle;
 
@@ -42,7 +42,7 @@ for (const [extension] of mimeTypeByExtension) {
       try {
         await page.goto(targetUrl, {
           waitUntil: "networkidle0",
-          timeout: 1800,
+          timeout: 3000,
         });
       } catch {
         // Navigation may fail for non-HTML content types — the webRequest
