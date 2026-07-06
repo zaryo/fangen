@@ -16,7 +16,7 @@ fmt: node_modules
 
 .PHONY: lint
 lint: node_modules
-	npm exec web-ext -- lint --ignore-files 'src/test/**'
+	npm exec web-ext -- lint
 
 .PHONY: watch.firefox
 watch.firefox: node_modules
