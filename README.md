@@ -11,13 +11,32 @@ Currently, Fangen has official tested support for the following browsers, althou
 
 ## Install
 
+### From the store
+
+Fangen is available to install from the following stores:
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/fangen-find-streaming-add/abiadimgdoddfinmmepejfjbmnncebho)
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fangen/)
+
 ### Manual installation
+
+### packed
+
+Fangen is also available to install as a packed extension for the following browsers:
+
+- Chromium: Download the CRX artifact from the [latest release](https://github.com/zaryo/fangen/releases). Do not use Chromium UI to download it, as it will automatically try to install it, that is not possible, since it lacks the official signing from Chrome, hence the error message `CRX_REQUIRED_PROOF_MISSING`. Instead, download it manually:
+
+    ```bash
+      wget https://github.com/zaryo/fangen/releases/download/<version>/fangen.crx
+    ```
+
+After that, navigate to `chrome://extensions`. Enable developer mode and simply drag the CRX file into this page and drop it.
 
 ### Unpacked
 
 First, clone the repository:
 
-```bash
+  ```bash
 git clone https://github.com/zaryo/fangen
 ```
 
@@ -32,7 +51,6 @@ After that, go to your browser and load the unpacked extension:
 Go to a streaming website which you want to discover streaming server addresses.
 
 After you play the video, in extension pop-up, click on the "Get streaming servers addresses" button.
-Chromium
 <p align="center">
 <img src="https://github.com/user-attachments/assets/2e4052d5-ecea-4c92-90be-6c1d67454107" alt="fangen-ui" />
 </p>
@@ -65,7 +83,7 @@ You can run the tests locally by entering the repository and running the followi
 
 - Unit tests:
 
-```bash
+  ```bash
 make test.unit
 ```
 
@@ -74,7 +92,7 @@ make test.unit
 > [!IMPORTANT]  
 > The use of `CHROMIUM_BINARY` is required.
 
-```bash
+  ```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> make test.chromium
 ```
 
@@ -83,7 +101,7 @@ CHROMIUM_BINARY=</path/to/your/chromium/binary> make test.chromium
 > [!IMPORTANT]  
 > The use of `FIREFOX_BINARY` is required.
 
-```bash
+  ```bash
 FIREFOX_BINARY=</path/to/your/firefox/binary> make test.firefox
 ```
 
@@ -92,7 +110,7 @@ FIREFOX_BINARY=</path/to/your/firefox/binary> make test.firefox
 > [!IMPORTANT]  
 > The use of both `CHROMIUM_BINARY` and `FIREFOX_BINARY` are required.
 
-```bash
+  ```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> FIREFOX_BINARY=</path/to/your/firefox/binary> make test
 ```
 
@@ -105,7 +123,7 @@ Fangen provides utilities you can use during development, you can use a watcher 
 > [!IMPORTANT]  
 > The use of `CHROMIUM_BINARY` is required.
 
-```bash
+  ```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> make watch.chromium
 ```
 
@@ -114,7 +132,7 @@ CHROMIUM_BINARY=</path/to/your/chromium/binary> make watch.chromium
 > [!IMPORTANT]  
 > The use of `FIREFOX_BINARY` is required.
 
-```bash
+  ```bash
 FIREFOX_BINARY=</path/to/your/firefox/binary> make watch.firefox
 ```
 
