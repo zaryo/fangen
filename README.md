@@ -36,7 +36,7 @@ After that, navigate to `chrome://extensions`. Enable developer mode and simply 
 
 First, clone the repository:
 
-  ```bash
+```bash
 git clone https://github.com/zaryo/fangen
 ```
 
@@ -83,7 +83,7 @@ You can run the tests locally by entering the repository and running the followi
 
 - Unit tests:
 
-  ```bash
+```bash
 make test.unit
 ```
 
@@ -92,7 +92,7 @@ make test.unit
 > [!IMPORTANT]  
 > The use of `CHROMIUM_BINARY` is required.
 
-  ```bash
+```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> make test.chromium
 ```
 
@@ -101,7 +101,7 @@ CHROMIUM_BINARY=</path/to/your/chromium/binary> make test.chromium
 > [!IMPORTANT]  
 > The use of `FIREFOX_BINARY` is required.
 
-  ```bash
+```bash
 FIREFOX_BINARY=</path/to/your/firefox/binary> make test.firefox
 ```
 
