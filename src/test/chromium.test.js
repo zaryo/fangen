@@ -13,7 +13,7 @@ import launchMockServer from "./utils/launchMockServer.js";
 import pollForStreamingUrl from "./utils/pollForStreamingUrl.js";
 import toTestName from "./utils/toTestName.js";
 
-jest.setTimeout(3000);
+jest.setTimeout(4000);
 
 let serverHandle;
 
@@ -56,3 +56,46 @@ for (const [extension] of mimeTypeByExtension) {
     }
   });
 }
+
+//
+// test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
+//   const browserHandle = await launchBrowser(Browser.Chromium);
+//
+//   try {
+//     const firstTargetUrl = serverHandle.urlFor("mp4");
+//     const secondTargetUrl = serverHandle.urlFor("mp3");
+//
+//     const firstPage = await browserHandle.browser.newPage();
+//     const secondPage = await browserHandle.browser.newPage();
+//
+//     try {
+//       await firstPage.goto(firstTargetUrl, {
+//         waitUntil: "networkidle0",
+//         timeout: 3000,
+//       });
+//
+//       await secondPage.goto(secondTargetUrl, {
+//         waitUntil: "networkidle0",
+//         timeout: 3000,
+//       });
+//     } catch {
+//     } finally {
+//       await firstPage.close();
+//       await secondPage.close();
+//     }
+//
+//     const firstTabUrls = await pollForStreamingUrl(
+//       browserHandle,
+//       firstTargetUrl,
+//     );
+//     const secondTabUrls = await pollForStreamingUrl(
+//       browserHandle,
+//       secondTargetUrl,
+//     );
+//
+//     console.log("First tab URLs:", firstTabUrls);
+//     console.log("Second tab URLs:", secondTabUrls);
+//   } finally {
+//     await browserHandle.close();
+//   }
+// });

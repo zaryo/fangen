@@ -1,6 +1,6 @@
 import { streamingMimeTypes } from "./types/streamingMimeTypes.js";
 
-const streamingUrls = new Set();
+const streamingUrls = new Map();
 
 function isStreamingResponse(responseHeaders) {
   const contentType =
@@ -19,9 +19,37 @@ async function handleRequest(requestDetails) {
   streamingUrls.add(requestDetails.url);
 }
 
+function registerStreamingUrl(requestTabId, requestUrl) {
+  const tabsUrls = streamingUrls.get(requestTabId);
+
+  if (tabsUrls) {
+    tabsUrls.add(requestUrl);
+  } else {
+    streamingUrls.set(requestTabId, new Set([requestUrl]));
+  }
+}
+
+async function handleRequest(requestDetails) {
+  if (!isStreamingResponse(requestDetails.responseHeaders)) return;
+
+  const requestTabId = requestDetails.tabId;
+  const requestUrl = requestDetails.url;
+
+  registerStreamingUrl(requestTabId, requestUrl);
+}
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === "getStreamingUrls") {
-    sendResponse({ urls: Array.from(streamingUrls) });
+    const currentTabId = message.data.currentTabId;
+
+    const tabUrls = streamingUrls.get(currentTabId);
+
+    if (tabUrls) {
+      sendResponse({ urls: Array.from(tabUrls) });
+    } else {
+      sendResponse({ urls: [] });
+    }
+
     return;
   }
 });

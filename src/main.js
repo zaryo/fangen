@@ -6,8 +6,14 @@ initializeTheme();
 document
   .querySelector(".page__button_fetch_servers")
   .addEventListener("click", async () => {
+    const [currentTab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+
     const { urls } = await chrome.runtime.sendMessage({
       type: "getStreamingUrls",
+      data: { currentTabId: currentTab.id },
     });
 
     const backend_url_addresses_list = document.querySelector(
