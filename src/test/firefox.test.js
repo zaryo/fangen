@@ -45,8 +45,6 @@ for (const [extension] of mimeTypeByExtension) {
           timeout: 3000,
         });
       } catch {
-        // Navigation may fail for non-HTML content types — the webRequest
-        // interception still fires, which is all we need.
       } finally {
         await page.close();
       }
