@@ -1,6 +1,4 @@
-import parseStreamingUrls from "./parseStreamingUrls.js";
-
-const STREAMING_POLL_DELAY = 30;
+import { STREAMING_POLL_DELAY } from "./extension.js";
 
 export default async function pollForStreamingUrl(
   browserHandle,
@@ -10,19 +8,17 @@ export default async function pollForStreamingUrl(
   const start = Date.now();
 
   while (Date.now() - start < timeout) {
-    const logs = await browserHandle.getServiceWorkerLogs();
-    const { urls } = parseStreamingUrls(logs);
+    const streamingUrls = await browserHandle.getBrowserStreamingUrls();
 
-    if (urls.some((url) => url === targetUrl)) {
-      return urls;
+    if (streamingUrls.some((streamingUrl) => streamingUrl === targetUrl)) {
+      return streamingUrls;
     }
 
     await new Promise((resolve) => setTimeout(resolve, STREAMING_POLL_DELAY));
   }
 
-  const logs = await browserHandle.getServiceWorkerLogs();
-  const { urls } = parseStreamingUrls(logs);
+  const streamingUrls = await browserHandle.getBrowserStreamingUrls();
   throw new Error(
-    `Timeout: streaming URL not found for ${targetUrl}. Captured URLs: ${JSON.stringify(urls)}`,
+    `Timeout: streaming URL not found for ${targetUrl}. Captured URLs: ${JSON.stringify(streamingUrls)}`,
   );
 }

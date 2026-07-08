@@ -33,7 +33,7 @@ for (const [extension] of mimeTypeByExtension) {
   const testName = `testIsStreamingResponseWorksFor${toTestName(extension)}`;
 
   test(testName, async () => {
-    const browserHandle = await launchBrowser(Browser.Firefox);
+    const browserHandle = await launchBrowser(Browser.FIREFOX);
 
     try {
       const targetUrl = serverHandle.urlFor(extension);
@@ -45,8 +45,6 @@ for (const [extension] of mimeTypeByExtension) {
           timeout: 3000,
         });
       } catch {
-        // Navigation may fail for non-HTML content types — the webRequest
-        // interception still fires, which is all we need.
       } finally {
         await page.close();
       }
