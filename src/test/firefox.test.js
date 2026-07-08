@@ -33,7 +33,7 @@ for (const [extension] of mimeTypeByExtension) {
   const testName = `testIsStreamingResponseWorksFor${toTestName(extension)}`;
 
   test(testName, async () => {
-    const browserHandle = await launchBrowser(Browser.Firefox);
+    const browserHandle = await launchBrowser(Browser.FIREFOX);
 
     try {
       const targetUrl = serverHandle.urlFor(extension);

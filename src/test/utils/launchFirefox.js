@@ -3,9 +3,8 @@ import os from "node:os";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import Browser from "./browser.js";
-import { EXTENSION_PAGE, EXTENSION_PATH, LOG_LEVEL } from "./extension.js";
-import getBrowserServiceWorkerLogs from "./getBrowserServiceLogs.js";
-import setExtensionLogLevel from "./setExtensionLogLevel.js";
+import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension.js";
+import getBrowserStreamingUrls from "./getBrowserStreamingUrls.js";
 
 async function pollExtensionUuid(userDataDir, addonId, timeout = 1800) {
   const prefsPath = path.join(userDataDir, "prefs.js");
@@ -66,8 +65,6 @@ export default async function launchFirefox() {
     },
   );
 
-  await setExtensionLogLevel(Browser.Firefox, extensionPage, LOG_LEVEL);
-
   process.on("exit", () => {
     browser.close().catch(() => {});
     fs.rmSync(userDataDir, { recursive: true, force: true });
@@ -75,8 +72,8 @@ export default async function launchFirefox() {
 
   return {
     browser,
-    getServiceWorkerLogs: () =>
-      getBrowserServiceWorkerLogs(Browser.Firefox, extensionPage),
+    getBrowserStreamingUrls: () =>
+      getBrowserStreamingUrls(Browser.FIREFOX, extensionPage),
     close: async () => {
       await browser.close();
       fs.rmSync(userDataDir, { recursive: true, force: true });

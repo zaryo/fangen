@@ -4,9 +4,9 @@ import launchFirefox from "./launchFirefox.js";
 
 export default async function launchBrowser(browserName) {
   switch (browserName) {
-    case Browser.Chromium:
+    case Browser.CHROMIUM:
       return launchChromium();
-    case Browser.Firefox:
+    case Browser.FIREFOX:
       return launchFirefox();
     default:
       throw new Error(`Unknown browser: ${browserName}`);
