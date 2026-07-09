@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import Browser from "./browser.js";
+import deleteBrowserStreamingUrls from "./deleteBrowserStreamingUrls.js";
 import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension.js";
 import getBrowserStreamingUrls from "./getBrowserStreamingUrls.js";
 
@@ -43,14 +44,14 @@ export default async function launchFirefox() {
 
   const browser = await puppeteer.launch({
     browser: "firefox",
-    protocol: "webDriverBiDi",
-    headless: true,
     executablePath: FIREFOX_BINARY_PATH,
-    userDataDir,
     extraPrefsFirefox: {
       "xpinstall.signatures.required": false,
     },
+    headless: true,
+    protocol: "webDriverBiDi",
     timeout: 1800,
+    userDataDir,
   });
 
   const addonId = await browser.installExtension(EXTENSION_PATH);
@@ -76,6 +77,8 @@ export default async function launchFirefox() {
       await browser.close();
       fs.rmSync(userDataDir, { recursive: true, force: true });
     },
+    deleteBrowserStreamingUrls: (tabId) =>
+      deleteBrowserStreamingUrls(Browser.FIREFOX, extensionPage, tabId),
     getActiveTabId: () =>
       extensionPage.evaluate(async () => {
         const [activeTab] = await browser.tabs.query({

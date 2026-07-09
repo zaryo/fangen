@@ -134,7 +134,8 @@ body {
   }
 }
 
-.page__button_fetch_streaming_urls, .page__button_delete_streaming_urls {
+.page__button_fetch_streaming_urls,
+.page__button_delete_streaming_urls {
   background-color: var(--color-button-background);
   border: 2px solid var(--color-button-border);
   box-shadow: 4px 4px 0 var(--color-button-border);
@@ -152,10 +153,10 @@ body {
   }
 }
 
-.page__button_fetch_streaming_urls { 
+.page__button_fetch_streaming_urls {
   p {
-        margin-left: 30px;
-        font-size: 12px;
+    margin-left: 30px;
+    font-size: 12px;
   }
 
   position: absolute;

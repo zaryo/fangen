@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import Browser from "./browser.js";
+import deleteBrowserStreamingUrls from "./deleteBrowserStreamingUrls.js";
 import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension.js";
 import getBrowserStreamingUrls from "./getBrowserStreamingUrls.js";
 
@@ -15,18 +16,18 @@ export default async function launchChromium() {
   );
 
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: CHROMIUM_BINARY_PATH,
-    userDataDir,
-    pipe: true,
-    ignoreDefaultArgs: [
-      "--disable-extensions",
-      "--disable-component-extensions-with-background-pages",
-    ],
     args: [
       "--enable-unsafe-extension-debugging",
       ...(process.env.CI ? ["--no-sandbox", "--disable-setuid-sandbox"] : []),
     ],
+    executablePath: CHROMIUM_BINARY_PATH,
+    headless: true,
+    ignoreDefaultArgs: [
+      "--disable-extensions",
+      "--disable-component-extensions-with-background-pages",
+    ],
+    pipe: true,
+    userDataDir,
   });
 
   const extensionId = await browser.installExtension(EXTENSION_PATH);
@@ -50,6 +51,8 @@ export default async function launchChromium() {
       await browser.close();
       fs.rmSync(userDataDir, { recursive: true, force: true });
     },
+    deleteBrowserStreamingUrls: (tabId) =>
+      deleteBrowserStreamingUrls(Browser.CHROMIUM, extensionPage, tabId),
     getActiveTabId: () =>
       extensionPage.evaluate(async () => {
         const [activeTab] = await chrome.tabs.query({

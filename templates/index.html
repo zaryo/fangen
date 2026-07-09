@@ -1,47 +1,62 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Fangen</title>
     <link href="../resources/css/index.css" rel="stylesheet" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="page">
-        <nav class="page__navbar">
-            <h1 class="page__title">Fangen</h1>
-            <div class="page__options">
-                <a href="https://github.com/zaryo/fangen" title="Source" class="page__navbar_source"></a>
-                <button type="button" title="Toggle theme" class="page__navbar_theme_toggle"></button>
-            </div>
-        </nav>
-        <p class="page__tutorial">
-            Start by pressing the
-            <strong>"Get streaming servers addresses"</strong> button.
-        </p>
-
-        <ul class="page__servers_list"></ul>
-        <div class="page__servers_action">
-            <p class="page__servers_action_troubleshoot">
-                If it does not work, try reloading the page and playing the video. If
-                error persists, do not hesitate on
-                <a href="https://github.com/zaryo/fangen/issues/new">reporting the issue</a>.
-            </p>
-            <div class="page__button_wrapper">
-                <button title="Get streaming addresses" type="button" class="page__button_fetch_streaming_urls">
-                    <p>Get streaming servers addresses</p>
-                </button>
-                <div class="page__button_delete_wrapper">
-                    <button title="Delete streaming addresses" type="button"
-                        class="page__button_delete_streaming_urls"></button>
-                </div>
-            </div>
+      <nav class="page__navbar">
+        <h1 class="page__title">Fangen</h1>
+        <div class="page__options">
+          <a
+            href="https://github.com/zaryo/fangen"
+            title="Source"
+            class="page__navbar_source"
+          ></a>
+          <button
+            type="button"
+            title="Toggle theme"
+            class="page__navbar_theme_toggle"
+          ></button>
         </div>
+      </nav>
+      <p class="page__tutorial">
+        Start by pressing the
+        <strong>"Get streaming servers addresses"</strong> button.
+      </p>
+
+      <ul class="page__servers_list"></ul>
+      <div class="page__servers_action">
+        <p class="page__servers_action_troubleshoot">
+          If it does not work, try reloading the page and playing the video. If
+          error persists, do not hesitate on
+          <a href="https://github.com/zaryo/fangen/issues/new"
+            >reporting the issue</a
+          >.
+        </p>
+        <div class="page__button_wrapper">
+          <button
+            title="Get streaming addresses"
+            type="button"
+            class="page__button_fetch_streaming_urls"
+          >
+            <p>Get streaming servers addresses</p>
+          </button>
+          <div class="page__button_delete_wrapper">
+            <button
+              title="Delete streaming addresses"
+              type="button"
+              class="page__button_delete_streaming_urls"
+            ></button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="../src/main.js"></script>
-</body>
-
+  </body>
 </html>
