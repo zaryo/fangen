@@ -47,6 +47,6 @@ test.firefox: node_modules
 .PHONY: test
 test: test.unit test.chromium test.firefox
 
-.PHONY: clean 
+.PHONY: clean
 clean:
 	rm -rf node_modules

@@ -1,3 +1,4 @@
+import getBrowserActiveTab from "./getBrowserActiveTab.js";
 import initializeTheme from "./theme.js";
 import truncateUrl from "./truncateUrl.js";
 
@@ -6,14 +7,11 @@ initializeTheme();
 document
   .querySelector(".page__button_fetch_servers")
   .addEventListener("click", async () => {
-    const [currentTab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+    const activeTab = await getBrowserActiveTab();
 
-    const { urls } = await chrome.runtime.sendMessage({
+    const { urls: streamingUrls } = await chrome.runtime.sendMessage({
       type: "getStreamingUrls",
-      data: { currentTabId: currentTab.id },
+      data: { currentTabId: activeTab.id },
     });
 
     const backend_url_addresses_list = document.querySelector(
@@ -21,7 +19,7 @@ document
     );
 
     backend_url_addresses_list.replaceChildren(
-      ...urls.map((url) => {
+      ...streamingUrls.map((url) => {
         const backend_url_address = document.createElement("a");
         backend_url_address.href = url;
         backend_url_address.className = "page__servers_list_item";

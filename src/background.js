@@ -13,12 +13,6 @@ function isStreamingResponse(responseHeaders) {
   );
 }
 
-async function handleRequest(requestDetails) {
-  if (!isStreamingResponse(requestDetails.responseHeaders)) return;
-
-  streamingUrls.add(requestDetails.url);
-}
-
 function registerStreamingUrl(requestTabId, requestUrl) {
   const tabsUrls = streamingUrls.get(requestTabId);
 
@@ -29,7 +23,7 @@ function registerStreamingUrl(requestTabId, requestUrl) {
   }
 }
 
-async function handleRequest(requestDetails) {
+function handleRequest(requestDetails) {
   if (!isStreamingResponse(requestDetails.responseHeaders)) return;
 
   const requestTabId = requestDetails.tabId;

@@ -39,17 +39,20 @@ for (const [extension] of mimeTypeByExtension) {
       const targetUrl = serverHandle.urlFor(extension);
       const page = await browserHandle.browser.newPage();
 
+      let tabId;
+
       try {
         await page.goto(targetUrl, {
-          waitUntil: "networkidle0",
           timeout: 3000,
+          waitUntil: "networkidle0",
         });
       } catch {
       } finally {
+        tabId = await browserHandle.getActiveTabId();
         await page.close();
       }
 
-      const urls = await pollForStreamingUrl(browserHandle, targetUrl);
+      const urls = await pollForStreamingUrl(browserHandle, tabId, targetUrl);
       expect(urls).toContain(targetUrl);
     } finally {
       await browserHandle.close();
@@ -57,45 +60,58 @@ for (const [extension] of mimeTypeByExtension) {
   });
 }
 
-//
-// test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
-//   const browserHandle = await launchBrowser(Browser.Chromium);
-//
-//   try {
-//     const firstTargetUrl = serverHandle.urlFor("mp4");
-//     const secondTargetUrl = serverHandle.urlFor("mp3");
-//
-//     const firstPage = await browserHandle.browser.newPage();
-//     const secondPage = await browserHandle.browser.newPage();
-//
-//     try {
-//       await firstPage.goto(firstTargetUrl, {
-//         waitUntil: "networkidle0",
-//         timeout: 3000,
-//       });
-//
-//       await secondPage.goto(secondTargetUrl, {
-//         waitUntil: "networkidle0",
-//         timeout: 3000,
-//       });
-//     } catch {
-//     } finally {
-//       await firstPage.close();
-//       await secondPage.close();
-//     }
-//
-//     const firstTabUrls = await pollForStreamingUrl(
-//       browserHandle,
-//       firstTargetUrl,
-//     );
-//     const secondTabUrls = await pollForStreamingUrl(
-//       browserHandle,
-//       secondTargetUrl,
-//     );
-//
-//     console.log("First tab URLs:", firstTabUrls);
-//     console.log("Second tab URLs:", secondTabUrls);
-//   } finally {
-//     await browserHandle.close();
-//   }
-// });
+test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
+  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+
+  try {
+    const firstTargetUrl = serverHandle.urlFor("mp4");
+    const secondTargetUrl = serverHandle.urlFor("mp3");
+
+    const firstPage = await browserHandle.browser.newPage();
+    const secondPage = await browserHandle.browser.newPage();
+
+    let firstTabId;
+    let secondTabId;
+
+    try {
+      await firstPage.goto(firstTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+
+      await secondPage.goto(secondTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+    } catch {
+    } finally {
+      await firstPage.bringToFront();
+      firstTabId = await browserHandle.getActiveTabId();
+      await firstPage.close();
+
+      await secondPage.bringToFront();
+      secondTabId = await browserHandle.getActiveTabId();
+      await secondPage.close();
+    }
+
+    const firstTabUrls = await pollForStreamingUrl(
+      browserHandle,
+      firstTabId,
+      firstTargetUrl,
+    );
+
+    const secondTabUrls = await pollForStreamingUrl(
+      browserHandle,
+      secondTabId,
+      secondTargetUrl,
+    );
+
+    expect(firstTabUrls).toStrictEqual([firstTargetUrl]);
+    expect(firstTabUrls).not.toContain(secondTargetUrl);
+
+    expect(secondTabUrls).toStrictEqual([secondTargetUrl]);
+    expect(secondTabUrls).not.toContain(firstTargetUrl);
+  } finally {
+    await browserHandle.close();
+  }
+}, 8000);

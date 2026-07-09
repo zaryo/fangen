@@ -6,7 +6,7 @@ import Browser from "./browser.js";
 import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension.js";
 import getBrowserStreamingUrls from "./getBrowserStreamingUrls.js";
 
-async function pollExtensionUuid(userDataDir, addonId, timeout = 1800) {
+async function pollExtensionUuid(addonId, timeout = 1800, userDataDir) {
   const prefsPath = path.join(userDataDir, "prefs.js");
   const start = Date.now();
 
@@ -54,7 +54,7 @@ export default async function launchFirefox() {
   });
 
   const addonId = await browser.installExtension(EXTENSION_PATH);
-  const extensionUuid = await pollExtensionUuid(userDataDir, addonId);
+  const extensionUuid = await pollExtensionUuid(addonId, 1800, userDataDir);
 
   const extensionPage = await browser.newPage();
   await extensionPage.goto(
@@ -72,11 +72,19 @@ export default async function launchFirefox() {
 
   return {
     browser,
-    getBrowserStreamingUrls: () =>
-      getBrowserStreamingUrls(Browser.FIREFOX, extensionPage),
     close: async () => {
       await browser.close();
       fs.rmSync(userDataDir, { recursive: true, force: true });
     },
+    getActiveTabId: () =>
+      extensionPage.evaluate(async () => {
+        const [activeTab] = await browser.tabs.query({
+          active: true,
+          currentWindow: true,
+        });
+        return activeTab?.id ?? null;
+      }),
+    getBrowserStreamingUrls: (tabId) =>
+      getBrowserStreamingUrls(Browser.FIREFOX, extensionPage, tabId),
   };
 }

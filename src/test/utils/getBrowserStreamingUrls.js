@@ -1,18 +1,21 @@
 import Browser from "./browser.js";
 
-async function getChromiumStreamingUrls(extensionPage) {
+async function getChromiumStreamingUrls(extensionPage, tabId) {
   try {
-    const streamingUrls = await extensionPage.evaluate(async () => {
+    const streamingUrls = await extensionPage.evaluate(async (currentTabId) => {
       return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ type: "getStreamingUrls" }, (response) => {
-          if (chrome.runtime.lastError) {
-            resolve([]);
-            return;
-          }
-          resolve(response?.urls ?? []);
-        });
+        chrome.runtime.sendMessage(
+          { data: { currentTabId }, type: "getStreamingUrls" },
+          (response) => {
+            if (chrome.runtime.lastError) {
+              resolve([]);
+              return;
+            }
+            resolve(response?.urls ?? []);
+          },
+        );
       });
-    });
+    }, tabId);
 
     return streamingUrls ?? [];
   } catch {
@@ -20,14 +23,15 @@ async function getChromiumStreamingUrls(extensionPage) {
   }
 }
 
-async function getFirefoxStreamingUrls(extensionPage) {
+async function getFirefoxStreamingUrls(extensionPage, tabId) {
   try {
-    const streamingUrls = await extensionPage.evaluate(async () => {
+    const streamingUrls = await extensionPage.evaluate(async (currentTabId) => {
       const response = await browser.runtime.sendMessage({
+        data: { currentTabId },
         type: "getStreamingUrls",
       });
       return response?.urls ?? [];
-    });
+    }, tabId);
 
     return streamingUrls ?? [];
   } catch {
@@ -36,15 +40,16 @@ async function getFirefoxStreamingUrls(extensionPage) {
 }
 
 export default async function getBrowserStreamingUrls(
-  extensionType,
+  browserType,
   extensionPage,
+  tabId,
 ) {
-  switch (extensionType) {
+  switch (browserType) {
     case Browser.CHROMIUM:
-      return getChromiumStreamingUrls(extensionPage);
+      return getChromiumStreamingUrls(extensionPage, tabId);
     case Browser.FIREFOX:
-      return getFirefoxStreamingUrls(extensionPage);
+      return getFirefoxStreamingUrls(extensionPage, tabId);
     default:
-      throw new Error(`Unknown extension type: ${extensionType}`);
+      throw new Error(`Unknown extension type: ${browserType}`);
   }
 }
