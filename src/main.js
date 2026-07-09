@@ -5,7 +5,7 @@ import truncateUrl from "./truncateUrl.js";
 initializeTheme();
 
 document
-  .querySelector(".page__button_fetch_servers")
+  .querySelector(".page__button_fetch_streaming_urls")
   .addEventListener("click", async () => {
     const activeTab = await getBrowserActiveTab();
 
@@ -30,4 +30,15 @@ document
         return list_item;
       }),
     );
+  });
+
+document
+  .querySelector(".page__button_delete_streaming_urls")
+  .addEventListener("click", async () => {
+    const activeTab = await getBrowserActiveTab();
+
+    await chrome.runtime.sendMessage({
+      type: "deleteStreamingUrls",
+      data: { currentTabId: activeTab.id },
+    });
   });
