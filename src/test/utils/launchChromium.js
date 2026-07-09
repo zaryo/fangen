@@ -34,7 +34,9 @@ export default async function launchChromium() {
   const extensionPage = await browser.newPage();
   await extensionPage.goto(
     `chrome-extension://${extensionId}${EXTENSION_PAGE}`,
-    { timeout: 1800 },
+    {
+      timeout: 1800,
+    },
   );
 
   process.on("exit", () => {
@@ -44,11 +46,19 @@ export default async function launchChromium() {
 
   return {
     browser,
-    getBrowserStreamingUrls: () =>
-      getBrowserStreamingUrls(Browser.CHROMIUM, extensionPage),
     close: async () => {
       await browser.close();
       fs.rmSync(userDataDir, { recursive: true, force: true });
     },
+    getActiveTabId: () =>
+      extensionPage.evaluate(async () => {
+        const [activeTab] = await chrome.tabs.query({
+          active: true,
+          currentWindow: true,
+        });
+        return activeTab?.id ?? null;
+      }),
+    getBrowserStreamingUrls: (tabId) =>
+      getBrowserStreamingUrls(Browser.CHROMIUM, extensionPage, tabId),
   };
 }

@@ -34,6 +34,7 @@ for (const [extension] of mimeTypeByExtension) {
 
   test(testName, async () => {
     const browserHandle = await launchBrowser(Browser.FIREFOX);
+    let tabId;
 
     try {
       const targetUrl = serverHandle.urlFor(extension);
@@ -41,18 +42,75 @@ for (const [extension] of mimeTypeByExtension) {
 
       try {
         await page.goto(targetUrl, {
-          waitUntil: "networkidle0",
           timeout: 3000,
+          waitUntil: "networkidle0",
         });
       } catch {
       } finally {
+        tabId = await browserHandle.getActiveTabId();
         await page.close();
       }
 
-      const urls = await pollForStreamingUrl(browserHandle, targetUrl);
+      const urls = await pollForStreamingUrl(browserHandle, tabId, targetUrl);
       expect(urls).toContain(targetUrl);
     } finally {
       await browserHandle.close();
     }
   });
 }
+
+test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
+  const browserHandle = await launchBrowser(Browser.FIREFOX);
+
+  try {
+    const firstTargetUrl = serverHandle.urlFor("mp4");
+    const secondTargetUrl = serverHandle.urlFor("mp3");
+
+    const firstPage = await browserHandle.browser.newPage();
+    const secondPage = await browserHandle.browser.newPage();
+
+    let firstTabId;
+    let secondTabId;
+
+    try {
+      await firstPage.goto(firstTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+
+      await secondPage.goto(secondTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+    } catch {
+    } finally {
+      await firstPage.bringToFront();
+      firstTabId = await browserHandle.getActiveTabId();
+      await firstPage.close();
+
+      await secondPage.bringToFront();
+      secondTabId = await browserHandle.getActiveTabId();
+      await secondPage.close();
+    }
+
+    const firstTabUrls = await pollForStreamingUrl(
+      browserHandle,
+      firstTabId,
+      firstTargetUrl,
+    );
+
+    const secondTabUrls = await pollForStreamingUrl(
+      browserHandle,
+      secondTabId,
+      secondTargetUrl,
+    );
+
+    expect(firstTabUrls).toStrictEqual([firstTargetUrl]);
+    expect(firstTabUrls).not.toContain(secondTargetUrl);
+
+    expect(secondTabUrls).toStrictEqual([secondTargetUrl]);
+    expect(secondTabUrls).not.toContain(firstTargetUrl);
+  } finally {
+    await browserHandle.close();
+  }
+});
