@@ -46,6 +46,21 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
     return;
   }
+
+  if (message.type === "deleteStreamingUrls") {
+    const currentTabId = message.data.currentTabId;
+
+    console.log(streamingUrls);
+
+    const tabUrls = streamingUrls.get(currentTabId);
+
+    if (tabUrls) {
+      streamingUrls.delete(currentTabId);
+    }
+
+    console.log(streamingUrls);
+    return;
+  }
 });
 
 chrome.webRequest.onHeadersReceived.addListener(

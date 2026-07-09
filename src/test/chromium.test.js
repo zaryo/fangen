@@ -52,8 +52,13 @@ for (const [extension] of mimeTypeByExtension) {
         await page.close();
       }
 
-      const urls = await pollForStreamingUrl(browserHandle, tabId, targetUrl);
-      expect(urls).toContain(targetUrl);
+      const urls = await pollForStreamingUrl(
+        browserHandle,
+        true,
+        tabId,
+        targetUrl,
+      );
+      expect(urls).toStrictEqual([targetUrl]);
     } finally {
       await browserHandle.close();
     }
@@ -96,12 +101,14 @@ test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
 
     const firstTabUrls = await pollForStreamingUrl(
       browserHandle,
+      true,
       firstTabId,
       firstTargetUrl,
     );
 
     const secondTabUrls = await pollForStreamingUrl(
       browserHandle,
+      true,
       secondTabId,
       secondTargetUrl,
     );
@@ -111,6 +118,85 @@ test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
 
     expect(secondTabUrls).toStrictEqual([secondTargetUrl]);
     expect(secondTabUrls).not.toContain(firstTargetUrl);
+  } finally {
+    await browserHandle.close();
+  }
+}, 8000);
+
+test("testStreamingUrlsAreDeleted", async () => {
+  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+
+  try {
+    const targetUrl = serverHandle.urlFor("mp4");
+    const page = await browserHandle.browser.newPage();
+
+    let tabId;
+
+    try {
+      await page.goto(targetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+    } catch {
+    } finally {
+      await page.bringToFront();
+      tabId = await browserHandle.getActiveTabId();
+      await page.close();
+    }
+
+    let tabUrls = await browserHandle.getBrowserStreamingUrls(tabId);
+
+    await pollForStreamingUrl(browserHandle, false, tabId, targetUrl);
+
+    tabUrls = await browserHandle.getBrowserStreamingUrls(tabId);
+
+    expect(tabUrls).not.toContain(targetUrl);
+  } finally {
+    await browserHandle.close();
+  }
+}, 8000);
+
+test("testOnlyOneTabStreamingUrlsAreDeleted", async () => {
+  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+
+  try {
+    const firstTargetUrl = serverHandle.urlFor("mp4");
+    const secondTargetUrl = serverHandle.urlFor("mp3");
+
+    const firstPage = await browserHandle.browser.newPage();
+    const secondPage = await browserHandle.browser.newPage();
+
+    let firstTabId;
+    let secondTabId;
+
+    try {
+      await firstPage.goto(firstTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+      await secondPage.goto(secondTargetUrl, {
+        timeout: 3000,
+        waitUntil: "networkidle0",
+      });
+    } catch {
+    } finally {
+      await firstPage.bringToFront();
+      firstTabId = await browserHandle.getActiveTabId();
+      await firstPage.close();
+
+      await secondPage.bringToFront();
+      secondTabId = await browserHandle.getActiveTabId();
+      await secondPage.close();
+    }
+    await pollForStreamingUrl(browserHandle, false, firstTabId, firstTargetUrl);
+
+    const firstTabUrls =
+      await browserHandle.getBrowserStreamingUrls(firstTabId);
+    const secondTabUrls =
+      await browserHandle.getBrowserStreamingUrls(secondTabId);
+
+    expect(firstTabUrls).not.toContain(firstTargetUrl);
+    expect(secondTabUrls).toStrictEqual([secondTargetUrl]);
   } finally {
     await browserHandle.close();
   }

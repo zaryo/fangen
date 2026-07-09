@@ -134,7 +134,8 @@ body {
   }
 }
 
-.page__button_fetch_servers {
+.page__button_fetch_streaming_urls,
+.page__button_delete_streaming_urls {
   background-color: var(--color-button-background);
   border: 2px solid var(--color-button-border);
   box-shadow: 4px 4px 0 var(--color-button-border);
@@ -150,4 +151,53 @@ body {
     box-shadow: 1px 1px 0 var(--color-button-border);
     transform: translate(3px, 3px);
   }
+}
+
+.page__button_fetch_streaming_urls {
+  p {
+    margin-left: 30px;
+    font-size: 12px;
+  }
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.page__button_delete_wrapper {
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  padding: 3px;
+  background-color: var(--color-button-background);
+  border: 1px solid var(--color-button-border);
+  box-shadow: inset 2px 2px 0 var(--color-button-border);
+}
+
+.page__button_delete_streaming_urls {
+  display: block;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-bottom: 0;
+  border: 1px solid var(--color-button-border);
+
+  &::before {
+    content: "";
+    display: block;
+    width: 80%;
+    height: 80%;
+    background-color: currentColor;
+    mask: url(../svg/clean-button-broom.svg) no-repeat center / contain;
+  }
+}
+
+.page__button_wrapper {
+  position: relative;
+  height: 38%;
+  margin-bottom: 20%;
 }
