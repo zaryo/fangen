@@ -6,8 +6,8 @@ import {
   jest,
   test,
 } from "@jest/globals";
-import { mimeTypeByExtension } from "../types/streamingMimeTypes";
-import { Firefox } from "./utils/Firefox";
+import {mimeTypeByExtension} from "../types/streamingMimeTypes";
+import {Firefox} from "./utils/Firefox";
 import launchMockServer, {
   type MockServerHandle,
 } from "./utils/launchMockServer";

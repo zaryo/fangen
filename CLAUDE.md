@@ -16,4 +16,3 @@
 
 - Describe what the contribution does in a short, precise and direct message the most descriptive as possibe. Never create a detailed list of the changed files.
 - Never add metadata to the commit message.
-

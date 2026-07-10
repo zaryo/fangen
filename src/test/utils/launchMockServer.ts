@@ -1,23 +1,23 @@
-import { HttpResponse, http as mswHttp } from "msw";
-import { setupServer } from "msw/node";
+import {HttpResponse, http as mswHttp} from "msw";
+import {setupServer} from "msw/node";
 import http from "node:http";
-import { AddressInfo } from "node:net";
-import { mimeTypeByExtension } from "../../types/streamingMimeTypes";
+import {AddressInfo} from "node:net";
+import {mimeTypeByExtension} from "../../types/streamingMimeTypes";
 
 const INTERNAL_MOCK_SERVER_ORIGIN = "http://mock.internal";
 
 const streamingRequestHandler = mswHttp.get(
   `${INTERNAL_MOCK_SERVER_ORIGIN}/stream/:extension`,
-  ({ params }) => {
+  ({params}) => {
     const mimeType = mimeTypeByExtension.get(params["extension"] as string);
 
     if (!mimeType) {
-      return new HttpResponse(null, { status: 404 });
+      return new HttpResponse(null, {status: 404});
     }
 
     return new HttpResponse(null, {
       status: 200,
-      headers: { "Content-Type": mimeType, "Content-Length": "0" },
+      headers: {"Content-Type": mimeType, "Content-Length": "0"},
     });
   },
 );
@@ -31,7 +31,7 @@ export interface MockServerHandle {
 
 export default function launchMockServer(): Promise<MockServerHandle> {
   const mswServer = setupServer(streamingRequestHandler);
-  mswServer.listen({ onUnhandledRequest: "bypass" });
+  mswServer.listen({onUnhandledRequest: "bypass"});
 
   const httpServer = http.createServer(async (req, res) => {
     try {
@@ -54,7 +54,7 @@ export default function launchMockServer(): Promise<MockServerHandle> {
 
   return new Promise((resolve, reject) => {
     httpServer.listen(0, "127.0.0.1", () => {
-      const { port } = httpServer.address() as AddressInfo;
+      const {port} = httpServer.address() as AddressInfo;
       resolve({
         port,
         urlFor: (extension: string) =>

@@ -6,8 +6,8 @@ import {
   jest,
   test,
 } from "@jest/globals";
-import { mimeTypeByExtension } from "../types/streamingMimeTypes";
-import { Chromium } from "./utils/Chromium";
+import {mimeTypeByExtension} from "../types/streamingMimeTypes";
+import {Chromium} from "./utils/Chromium";
 import launchMockServer, {
   type MockServerHandle,
 } from "./utils/launchMockServer";

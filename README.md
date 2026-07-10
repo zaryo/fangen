@@ -26,9 +26,9 @@ Fangen is also available to install as a packed extension for the following brow
 
 - Chromium: Download the CRX artifact from the [latest release](https://github.com/zaryo/fangen/releases). Do not use Chromium UI to download it, as it will automatically try to install it, that is not possible, since it lacks the official signing from Chrome, hence the error message `CRX_REQUIRED_PROOF_MISSING`. Instead, download it manually:
 
-    ```bash
-      wget https://github.com/zaryo/fangen/releases/download/<version>/fangen.crx
-    ```
+  ```bash
+    wget https://github.com/zaryo/fangen/releases/download/<version>/fangen.crx
+  ```
 
 After that, navigate to `chrome://extensions`. Enable developer mode and simply drag the CRX file into this page and drop it.
 
@@ -44,13 +44,14 @@ After that, go to your browser and load the unpacked extension:
 
 - Chromium: Navigate to `chrome://extensions`. Enable developer mode and press "**Load unpacked**". Select the repository you just cloned in the previous step.
 
-- Firefox: Navigate to `about:debugging`. Click "**This Firefox**" > "**Load Temporary Add-on...**" and select the `manifest.json` file from the repository you just cloned. 
+- Firefox: Navigate to `about:debugging`. Click "**This Firefox**" > "**Load Temporary Add-on...**" and select the `manifest.json` file from the repository you just cloned.
 
 ### Usage
 
 Go to a streaming website which you want to discover streaming server addresses.
 
 After you play the video, in extension pop-up, click on the "Get streaming servers addresses" button.
+
 <p align="center">
 <img src="https://github.com/user-attachments/assets/f01f1040-574e-4741-b909-27b252a9b6a8" alt="fangen-ui" />
 </p>
@@ -82,8 +83,8 @@ You can also delete the existing addresses stored in Fangen by clicking in the c
 Fangen has unit and integration tests. Those tests have the following dependencies:
 
 - NodeJS
-- NPM 
-- Make 
+- NPM
+- Make
 
 You can run the tests locally by entering the repository and running the following commands:
 
@@ -116,7 +117,7 @@ FIREFOX_BINARY=</path/to/your/firefox/binary> make test.firefox
 > [!IMPORTANT]  
 > The use of both `CHROMIUM_BINARY` and `FIREFOX_BINARY` are required.
 
-  ```bash
+```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> FIREFOX_BINARY=</path/to/your/firefox/binary> make test
 ```
 
@@ -129,7 +130,7 @@ Fangen provides utilities you can use during development, you can use a watcher 
 > [!IMPORTANT]  
 > The use of `CHROMIUM_BINARY` is required.
 
-  ```bash
+```bash
 CHROMIUM_BINARY=</path/to/your/chromium/binary> make watch.chromium
 ```
 
@@ -138,11 +139,10 @@ CHROMIUM_BINARY=</path/to/your/chromium/binary> make watch.chromium
 > [!IMPORTANT]  
 > The use of `FIREFOX_BINARY` is required.
 
-  ```bash
+```bash
 FIREFOX_BINARY=</path/to/your/firefox/binary> make watch.firefox
 ```
 
 ### How it works
 
 Fangen starts a service worker in the background, which listens for browser requests whose headers are checked against a set of MIME types to verify what establishes persistent connections and storing their origins. Those origins are shown on the button click event.
-

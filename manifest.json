@@ -1,46 +1,35 @@
 {
-    "name": "Fangen - Find streaming addresses",
-    "author": "Luiz Miguel (Propfend)",
-    "version": "0.1.0",
-    "manifest_version": 3,
-    "permissions": [
-        "scripting",
-        "activeTab",
-        "webRequest",
-        "storage"
-    ],
-    "host_permissions": [
-        "<all_urls>"
-    ],
-    "description": "Find backend streaming services addresses.",
-    "action": {
-        "default_icon": {
-            "32": "resources/media/icon_32.png",
-            "64": "resources/media/icon_64.png"
-        },
-        "default_title": "Fangen - Find streaming addresses",
-        "default_popup": "templates/index.html"
+  "name": "Fangen - Find streaming addresses",
+  "author": "Luiz Miguel (Propfend)",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "permissions": ["scripting", "activeTab", "webRequest", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "description": "Find backend streaming services addresses.",
+  "action": {
+    "default_icon": {
+      "32": "resources/media/icon_32.png",
+      "64": "resources/media/icon_64.png"
     },
-    "icons": {
-        "32": "resources/media/icon_32.png",
-        "64": "resources/media/icon_64.png"
-    },
-    "background": {
-        "service_worker": "dist/background.js",
-        "scripts": [
-            "dist/background.js"
-        ],
-        "type": "module"
-    },
-    "browser_specific_settings": {
-        "gecko": {
-            "id": "fangen@zaryo.github.io",
-            "data_collection_permissions": {
-                "required": [
-                    "none"
-                ],
-                "optional": []
-            }
-        }
+    "default_title": "Fangen - Find streaming addresses",
+    "default_popup": "templates/index.html"
+  },
+  "icons": {
+    "32": "resources/media/icon_32.png",
+    "64": "resources/media/icon_64.png"
+  },
+  "background": {
+    "service_worker": "dist/background.js",
+    "scripts": ["dist/background.js"],
+    "type": "module"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "fangen@zaryo.github.io",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": []
+      }
     }
+  }
 }

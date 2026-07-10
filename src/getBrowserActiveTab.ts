@@ -4,5 +4,9 @@ export default async function getBrowserActiveTab(): Promise<chrome.tabs.Tab> {
     currentWindow: true,
   });
 
-  return activeTab!;
+  if (!activeTab) {
+    throw new Error("No active tab found");
+  }
+
+  return activeTab;
 }

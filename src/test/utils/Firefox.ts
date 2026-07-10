@@ -2,8 +2,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import puppeteer from "puppeteer";
-import { Browser } from "./browser";
-import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension";
+import {Browser} from "./browser";
+import {EXTENSION_PAGE, EXTENSION_PATH} from "./extension";
 
 export class Firefox extends Browser {
   async launchBrowser(): Promise<Browser> {
@@ -35,12 +35,12 @@ export class Firefox extends Browser {
     this.extensionPage = await browser.newPage();
     await this.extensionPage.goto(
       `moz-extension://${extensionUuid}${EXTENSION_PAGE}`,
-      { timeout: 1800, waitUntil: "commit" },
+      {timeout: 1800, waitUntil: "commit"},
     );
 
     process.on("exit", () => {
       browser.close().catch(() => {});
-      fs.rmSync(this.userDataDir, { recursive: true, force: true });
+      fs.rmSync(this.userDataDir, {recursive: true, force: true});
     });
 
     return this;
@@ -83,9 +83,8 @@ export class Firefox extends Browser {
 
   async getActiveTabId(): Promise<number | null> {
     return this.extensionPage.evaluate(async () => {
-      const browserGlobal = (
-        globalThis as unknown as { browser: typeof chrome }
-      ).browser;
+      const browserGlobal = (globalThis as unknown as {browser: typeof chrome})
+        .browser;
       const [activeTab] = await browserGlobal.tabs.query({
         active: true,
         currentWindow: true,
@@ -99,12 +98,12 @@ export class Firefox extends Browser {
       const streamingUrls = await this.extensionPage.evaluate(
         async (currentTabId: number) => {
           const browserGlobal = (
-            globalThis as unknown as { browser: typeof chrome }
+            globalThis as unknown as {browser: typeof chrome}
           ).browser;
           const response = (await browserGlobal.runtime.sendMessage({
-            data: { currentTabId },
+            data: {currentTabId},
             type: "getStreamingUrls",
-          })) as { urls?: string[] } | undefined;
+          })) as {urls?: string[]} | undefined;
           return response?.urls ?? [];
         },
         tabId,

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { watch } from "node:fs";
+import {watch} from "node:fs";
+import bundleProject from "./build/bundle.mjs";
 import rebuild from "./build/rebuild.mjs";
 import reloadExtension from "./build/reloadExtension.mjs";
 import startBrowser from "./build/startBrowser.mjs";
-import bundleProject from "./build/bundle.mjs";
 
 const commandLineArguments = process.argv.slice(2);
 const browserFlags = commandLineArguments.filter(
@@ -23,10 +23,10 @@ console.log("[watch] Initial build complete. Starting browser...");
 
 const extensionRunner = await startBrowser(browserFlag.slice(2));
 
-watch("src", { recursive: false }, rebuild);
-watch("src/types", { recursive: true }, rebuild);
-watch("dist", { recursive: true }, () => reloadExtension(extensionRunner));
-watch("resources", { recursive: true }, () => reloadExtension(extensionRunner));
-watch("templates", { recursive: true }, () => reloadExtension(extensionRunner));
+watch("src", {recursive: false}, rebuild);
+watch("src/types", {recursive: true}, rebuild);
+watch("dist", {recursive: true}, () => reloadExtension(extensionRunner));
+watch("resources", {recursive: true}, () => reloadExtension(extensionRunner));
+watch("templates", {recursive: true}, () => reloadExtension(extensionRunner));
 
 console.log("[watch] Watching for changes...");

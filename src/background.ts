@@ -1,4 +1,4 @@
-import { streamingMimeTypes } from "./types/streamingMimeTypes";
+import {streamingMimeTypes} from "./types/streamingMimeTypes";
 
 const streamingUrls = new Map<number, Set<string>>();
 
@@ -39,7 +39,7 @@ function handleRequest(
 
 chrome.runtime.onMessage.addListener(
   (
-    message: { type: string; data: { currentTabId: number } },
+    message: {type: string; data: {currentTabId: number}},
     _sender,
     sendResponse,
   ) => {
@@ -48,9 +48,9 @@ chrome.runtime.onMessage.addListener(
       const tabUrls = streamingUrls.get(currentTabId);
 
       if (tabUrls) {
-        sendResponse({ urls: Array.from(tabUrls) });
+        sendResponse({urls: Array.from(tabUrls)});
       } else {
-        sendResponse({ urls: [] });
+        sendResponse({urls: []});
       }
 
       return;
@@ -74,6 +74,6 @@ chrome.runtime.onMessage.addListener(
 
 chrome.webRequest.onHeadersReceived.addListener(
   handleRequest,
-  { urls: ["<all_urls>"] },
+  {urls: ["<all_urls>"]},
   ["responseHeaders"],
 );

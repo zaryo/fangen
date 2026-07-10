@@ -2,9 +2,9 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import puppeteer from "puppeteer";
-import { match } from "ts-pattern";
-import { Browser } from "./browser";
-import { EXTENSION_PAGE, EXTENSION_PATH } from "./extension";
+import {match} from "ts-pattern";
+import {Browser} from "./browser";
+import {EXTENSION_PAGE, EXTENSION_PATH} from "./extension";
 
 export class Chromium extends Browser {
   async launchBrowser(): Promise<Browser> {
@@ -40,12 +40,12 @@ export class Chromium extends Browser {
     this.extensionPage = await browser.newPage();
     await this.extensionPage.goto(
       `chrome-extension://${extensionId}${EXTENSION_PAGE}`,
-      { timeout: 1800 },
+      {timeout: 1800},
     );
 
     process.on("exit", () => {
       browser.close().catch(() => {});
-      fs.rmSync(this.userDataDir, { recursive: true, force: true });
+      fs.rmSync(this.userDataDir, {recursive: true, force: true});
     });
 
     return this;
@@ -67,8 +67,8 @@ export class Chromium extends Browser {
         async (currentTabId: number) => {
           return new Promise<string[]>((resolve) => {
             chrome.runtime.sendMessage(
-              { data: { currentTabId }, type: "getStreamingUrls" },
-              (response: { urls?: string[] } | undefined) => {
+              {data: {currentTabId}, type: "getStreamingUrls"},
+              (response: {urls?: string[]} | undefined) => {
                 if (chrome.runtime.lastError) {
                   resolve([]);
                   return;
