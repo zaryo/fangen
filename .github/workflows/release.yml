@@ -22,6 +22,14 @@ jobs:
         with:
           source: browser_extension_manifest
 
+      - name: set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: build project
+        run: make build
+
       - id: packExtensionDir
         uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
         with:

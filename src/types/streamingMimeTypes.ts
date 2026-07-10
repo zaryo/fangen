@@ -1,4 +1,4 @@
-export const streamingMimeTypes = [
+export const streamingMimeTypes: string[] = [
   "video/",
   "audio/",
   "application/vnd.apple.mpegurl",
@@ -6,7 +6,7 @@ export const streamingMimeTypes = [
   "application/dash+xml",
 ];
 
-export const mimeTypeByExtension = new Map([
+export const mimeTypeByExtension = new Map<string, string>([
   ["mp4", "video/mp4"],
   ["mp3", "audio/mpeg"],
   ["m3u8", "application/vnd.apple.mpegurl"],

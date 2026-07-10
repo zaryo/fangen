@@ -1,4 +1,4 @@
-export default function truncateUrl(url, size) {
+export default function truncateUrl(url: string, size: number): string {
   if (url.length <= size) return url;
 
   const available = size - 3;

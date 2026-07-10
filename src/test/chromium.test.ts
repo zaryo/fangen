@@ -6,16 +6,17 @@ import {
   jest,
   test,
 } from "@jest/globals";
-import { mimeTypeByExtension } from "../types/streamingMimeTypes.js";
-import Browser from "./utils/browser.js";
-import launchBrowser from "./utils/launchBrowser.js";
-import launchMockServer from "./utils/launchMockServer.js";
-import pollForStreamingUrl from "./utils/pollForStreamingUrl.js";
-import toTestName from "./utils/toTestName.js";
+import { mimeTypeByExtension } from "../types/streamingMimeTypes";
+import { Chromium } from "./utils/Chromium";
+import launchMockServer, {
+  type MockServerHandle,
+} from "./utils/launchMockServer";
+import pollForStreamingUrl from "./utils/pollForStreamingUrl";
+import toTestName from "./utils/toTestName";
 
 jest.setTimeout(4000);
 
-let serverHandle;
+let serverHandle: MockServerHandle;
 
 beforeAll(async () => {
   serverHandle = await launchMockServer();
@@ -33,13 +34,13 @@ for (const [extension] of mimeTypeByExtension) {
   const testName = `testIsStreamingResponseWorksFor${toTestName(extension)}`;
 
   test(testName, async () => {
-    const browserHandle = await launchBrowser(Browser.CHROMIUM);
+    const browserHandle = await new Chromium().launchBrowser();
 
     try {
       const targetUrl = serverHandle.urlFor(extension);
       const page = await browserHandle.browser.newPage();
 
-      let tabId;
+      let tabId: number | null | undefined;
 
       try {
         await page.goto(targetUrl, {
@@ -55,7 +56,7 @@ for (const [extension] of mimeTypeByExtension) {
       const urls = await pollForStreamingUrl(
         browserHandle,
         true,
-        tabId,
+        tabId!,
         targetUrl,
       );
       expect(urls).toStrictEqual([targetUrl]);
@@ -66,7 +67,7 @@ for (const [extension] of mimeTypeByExtension) {
 }
 
 test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
-  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+  const browserHandle = await new Chromium().launchBrowser();
 
   try {
     const firstTargetUrl = serverHandle.urlFor("mp4");
@@ -75,8 +76,8 @@ test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
     const firstPage = await browserHandle.browser.newPage();
     const secondPage = await browserHandle.browser.newPage();
 
-    let firstTabId;
-    let secondTabId;
+    let firstTabId: number | null | undefined;
+    let secondTabId: number | null | undefined;
 
     try {
       await firstPage.goto(firstTargetUrl, {
@@ -102,14 +103,14 @@ test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
     const firstTabUrls = await pollForStreamingUrl(
       browserHandle,
       true,
-      firstTabId,
+      firstTabId!,
       firstTargetUrl,
     );
 
     const secondTabUrls = await pollForStreamingUrl(
       browserHandle,
       true,
-      secondTabId,
+      secondTabId!,
       secondTargetUrl,
     );
 
@@ -124,13 +125,13 @@ test("testStreamingUrlsAreIsolatedAcrossDifferentTabs", async () => {
 }, 8000);
 
 test("testStreamingUrlsAreDeleted", async () => {
-  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+  const browserHandle = await new Chromium().launchBrowser();
 
   try {
     const targetUrl = serverHandle.urlFor("mp4");
     const page = await browserHandle.browser.newPage();
 
-    let tabId;
+    let tabId: number | null | undefined;
 
     try {
       await page.goto(targetUrl, {
@@ -144,11 +145,11 @@ test("testStreamingUrlsAreDeleted", async () => {
       await page.close();
     }
 
-    let tabUrls = await browserHandle.getBrowserStreamingUrls(tabId);
+    await browserHandle.getBrowserStreamingUrls(tabId!);
 
-    await pollForStreamingUrl(browserHandle, false, tabId, targetUrl);
+    await pollForStreamingUrl(browserHandle, false, tabId!, targetUrl);
 
-    tabUrls = await browserHandle.getBrowserStreamingUrls(tabId);
+    const tabUrls = await browserHandle.getBrowserStreamingUrls(tabId!);
 
     expect(tabUrls).not.toContain(targetUrl);
   } finally {
@@ -157,7 +158,7 @@ test("testStreamingUrlsAreDeleted", async () => {
 }, 8000);
 
 test("testOnlyOneTabStreamingUrlsAreDeleted", async () => {
-  const browserHandle = await launchBrowser(Browser.CHROMIUM);
+  const browserHandle = await new Chromium().launchBrowser();
 
   try {
     const firstTargetUrl = serverHandle.urlFor("mp4");
@@ -166,8 +167,8 @@ test("testOnlyOneTabStreamingUrlsAreDeleted", async () => {
     const firstPage = await browserHandle.browser.newPage();
     const secondPage = await browserHandle.browser.newPage();
 
-    let firstTabId;
-    let secondTabId;
+    let firstTabId: number | null | undefined;
+    let secondTabId: number | null | undefined;
 
     try {
       await firstPage.goto(firstTargetUrl, {
@@ -188,12 +189,19 @@ test("testOnlyOneTabStreamingUrlsAreDeleted", async () => {
       secondTabId = await browserHandle.getActiveTabId();
       await secondPage.close();
     }
-    await pollForStreamingUrl(browserHandle, false, firstTabId, firstTargetUrl);
+    await pollForStreamingUrl(
+      browserHandle,
+      false,
+      firstTabId!,
+      firstTargetUrl,
+    );
 
-    const firstTabUrls =
-      await browserHandle.getBrowserStreamingUrls(firstTabId);
-    const secondTabUrls =
-      await browserHandle.getBrowserStreamingUrls(secondTabId);
+    const firstTabUrls = await browserHandle.getBrowserStreamingUrls(
+      firstTabId!,
+    );
+    const secondTabUrls = await browserHandle.getBrowserStreamingUrls(
+      secondTabId!,
+    );
 
     expect(firstTabUrls).not.toContain(firstTargetUrl);
     expect(secondTabUrls).toStrictEqual([secondTargetUrl]);
