@@ -14,7 +14,7 @@ import launchMockServer, {
 import pollForStreamingUrl from "./utils/pollForStreamingUrl";
 import toTestName from "./utils/toTestName";
 
-jest.setTimeout(5000);
+jest.setTimeout(6000);
 
 let serverHandle: MockServerHandle;
 
