@@ -6,7 +6,11 @@ export default function rebuild() {
   if (buildTimer) clearTimeout(buildTimer);
   buildTimer = setTimeout(async () => {
     console.log("[watch] File change detected, rebuilding...");
-    await bundleProject();
-    console.log("[watch] Build complete.");
+    try {
+      await bundleProject();
+      console.log("[watch] Build complete.");
+    } catch (error) {
+      console.error("[watch] Build failed:", error.message);
+    }
   }, 200);
 }
