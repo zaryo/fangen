@@ -35,11 +35,11 @@ test.unit: node_modules
 	node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose src/test/truncateUrl.test.ts
 
 .PHONY: test.chromium
-test.chromium: node_modules
+test.chromium: node_modules build
 	CHROMIUM_BINARY=$(CHROMIUM_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/chromium.test.ts --detectOpenHandles
 
 .PHONY: test.firefox
-test.firefox: node_modules
+test.firefox: node_modules build
 	FIREFOX_BINARY=$(FIREFOX_BINARY) node --experimental-vm-modules node_modules/.bin/jest --runInBand --verbose --forceExit src/test/firefox.test.ts --detectOpenHandles
 
 .PHONY: test
