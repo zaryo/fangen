@@ -9,14 +9,25 @@ node_modules: package-lock.json
 fmt: node_modules
 	npm exec prettier -- \
         --plugin=prettier-plugin-organize-imports \
+        --plugin=prettier-plugin-organize-attributes \
         --write \
+		--no-bracket-spacing \
+		./ \
+		build \
         src \
         templates \
         resources/css
 
-.PHONY: lint
-lint: node_modules
+.PHONY: lint.manifest
+lint.manifest: node_modules build
 	npm exec web-ext -- lint
+
+.PHONY: lint.ts
+lint.ts: node_modules
+	npm exec eslint -- src
+
+.PHONY: lint
+lint: lint.manifest lint.ts
 
 .PHONY: build
 build: node_modules

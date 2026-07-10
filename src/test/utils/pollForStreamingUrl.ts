@@ -1,5 +1,5 @@
-import type { Browser } from "./browser";
-import { STREAMING_POLL_DELAY } from "./extension";
+import type {Browser} from "./browser";
+import {STREAMING_POLL_DELAY} from "./extension";
 
 export default async function pollForStreamingUrl(
   browserHandle: Browser,

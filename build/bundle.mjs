@@ -1,11 +1,11 @@
 import * as esbuild from "esbuild";
-import { mkdir, rm } from "node:fs/promises";
+import {mkdir, rm} from "node:fs/promises";
 
 const outputDirectory = "dist";
 
 export default async function bundleProject() {
-  await rm(outputDirectory, { recursive: true, force: true });
-  await mkdir(outputDirectory, { recursive: true });
+  await rm(outputDirectory, {recursive: true, force: true});
+  await mkdir(outputDirectory, {recursive: true});
 
   await esbuild.build({
     bundle: true,

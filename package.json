@@ -1,39 +1,45 @@
 {
-    "devDependencies": {
-        "@types/chrome": "^0.0.303",
-        "@types/node": "^22.0.0",
-        "esbuild": "^0.25.0",
-        "jest": "^30.4.2",
-        "msw": "^2.14.6",
-        "prettier": "3.8.3",
-        "prettier-plugin-organize-imports": "4.1.0",
-        "puppeteer": "^25.1.0",
-        "ts-jest": "^29.4.0",
-        "typescript": "^5.7.0",
-        "web-ext": "^10.4.0"
-    },
-    "type": "module",
-    "scripts": {
-        "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand"
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "testMatch": [
-            "**/src/test/**/*.test.ts"
-        ],
-        "extensionsToTreatAsEsm": [
-            ".ts"
-        ],
-        "transform": {
-            "^.+\\.ts$": [
-                "ts-jest",
-                {
-                    "useESM": true
-                }
-            ]
+  "devDependencies": {
+    "@danilqa/eslint-plugin-ts-pattern": "^0.0.4",
+    "@eslint/js": "^10.0.1",
+    "@types/chrome": "^0.0.303",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^10.6.0",
+    "globals": "^17.7.0",
+    "jest": "^30.4.2",
+    "msw": "^2.14.6",
+    "prettier": "3.8.3",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-organize-imports": "4.1.0",
+    "puppeteer": "^25.1.0",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.63.0",
+    "web-ext": "^10.4.0"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/src/test/**/*.test.ts"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "useESM": true
         }
-    },
-    "dependencies": {
-        "ts-pattern": "^5.9.0"
+      ]
     }
+  },
+  "dependencies": {
+    "ts-pattern": "^5.9.0"
+  }
 }

@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { Page, Browser as PuppeteerBrowser } from "puppeteer";
+import type {Page, Browser as PuppeteerBrowser} from "puppeteer";
 
 export abstract class Browser {
   protected _browser: PuppeteerBrowser;
@@ -16,14 +16,14 @@ export abstract class Browser {
 
   async close(): Promise<void> {
     await this._browser.close();
-    fs.rmSync(this.userDataDir, { recursive: true, force: true });
+    fs.rmSync(this.userDataDir, {recursive: true, force: true});
   }
 
   async deleteBrowserStreamingUrls(tabId: number): Promise<void> {
     try {
       await this.extensionPage.evaluate(async (currentTabId: number) => {
         return await chrome.runtime.sendMessage({
-          data: { currentTabId },
+          data: {currentTabId},
           type: "deleteStreamingUrls",
         });
       }, tabId);

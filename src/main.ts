@@ -8,11 +8,17 @@ document
   .querySelector(".page__button_fetch_streaming_urls")
   ?.addEventListener("click", async () => {
     const activeTab = await getBrowserActiveTab();
+    const activeTabId = activeTab.id;
 
-    const { urls: streamingUrls } = (await chrome.runtime.sendMessage({
-      type: "getStreamingUrls",
-      data: { currentTabId: activeTab.id! },
-    })) as { urls: string[] };
+    if (activeTabId === undefined) {
+      throw new Error("Active tab has no id");
+    }
+
+    const {urls: streamingUrls}: {urls: string[]} =
+      await chrome.runtime.sendMessage({
+        type: "getStreamingUrls",
+        data: {currentTabId: activeTabId},
+      });
 
     const backendUrlAddressesList = document.querySelector(
       ".page__servers_list",
@@ -37,9 +43,14 @@ document
   .querySelector(".page__button_delete_streaming_urls")
   ?.addEventListener("click", async () => {
     const activeTab = await getBrowserActiveTab();
+    const activeTabId = activeTab.id;
+
+    if (activeTabId === undefined) {
+      throw new Error("Active tab has no id");
+    }
 
     await chrome.runtime.sendMessage({
       type: "deleteStreamingUrls",
-      data: { currentTabId: activeTab.id! },
+      data: {currentTabId: activeTabId},
     });
   });

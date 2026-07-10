@@ -1,4 +1,4 @@
-import { match } from "ts-pattern";
+import {match} from "ts-pattern";
 
 const STORAGE_KEY_NAME = "theme";
 const DARK_THEME_NAME = "dark";

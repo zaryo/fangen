@@ -29,8 +29,5 @@ jobs:
         with:
           node-version: 24
 
-      - name: build project
-        run: make build
-
       - name: lint
-        uses: freaktechnik/web-ext-lint@v1
+        run: make lint

@@ -1,6 +1,6 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { match } from "ts-pattern";
+import {dirname, resolve} from "node:path";
+import {fileURLToPath} from "node:url";
+import {match} from "ts-pattern";
 import webExt from "web-ext";
 
 const buildDirectory = dirname(fileURLToPath(import.meta.url));
