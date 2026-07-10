@@ -1,4 +1,4 @@
-import truncateUrl from "../truncateUrl.js";
+import truncateUrl from "../truncateUrl";
 
 test("testTruncateUrlTrimsUrlMiddle", () => {
   const url = "https://example.com/streaming/video.m3u8";

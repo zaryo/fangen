@@ -1,12 +1,13 @@
-import { STREAMING_POLL_DELAY } from "./extension.js";
+import type { Browser } from "./browser";
+import { STREAMING_POLL_DELAY } from "./extension";
 
 export default async function pollForStreamingUrl(
-  browserHandle,
-  present,
-  tabId,
-  targetUrl,
+  browserHandle: Browser,
+  present: boolean,
+  tabId: number,
+  targetUrl: string,
   timeout = 30000,
-) {
+): Promise<string[] | undefined> {
   const start = Date.now();
 
   if (present === false) {
@@ -26,12 +27,14 @@ export default async function pollForStreamingUrl(
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, STREAMING_POLL_DELAY));
+    await new Promise<void>((resolve) =>
+      setTimeout(resolve, STREAMING_POLL_DELAY),
+    );
   }
 
   const streamingUrls = await browserHandle.getBrowserStreamingUrls(tabId);
 
-  let errorMessage;
+  let errorMessage: string;
 
   if (present !== false) {
     errorMessage = `Timeout: streaming URL not found for ${targetUrl}. Captured URLs: ${JSON.stringify(streamingUrls)}`;
