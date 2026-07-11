@@ -23,7 +23,7 @@ export class Firefox extends Browser {
       },
       headless: true,
       protocol: "webDriverBiDi",
-      timeout: 1800,
+      timeout: 3000,
       userDataDir: this.userDataDir,
     });
 
