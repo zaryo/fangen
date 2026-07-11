@@ -53,4 +53,6 @@ document
       type: "deleteStreamingUrls",
       data: {currentTabId: activeTabId},
     });
+
+    document.querySelector(".page__servers_list")?.replaceChildren();
   });
