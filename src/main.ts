@@ -14,10 +14,10 @@ document
       throw new Error("Active tab has no id");
     }
 
-    const { urls: streamingUrls }: { urls: string[] } =
+    const {urls: streamingUrls}: {urls: string[]} =
       await chrome.runtime.sendMessage({
         type: "getStreamingUrls",
-        data: { currentTabId: activeTabId },
+        data: {currentTabId: activeTabId},
       });
 
     const backendUrlAddressesList = document.querySelector(
@@ -51,7 +51,7 @@ document
 
     await chrome.runtime.sendMessage({
       type: "deleteStreamingUrls",
-      data: { currentTabId: activeTabId },
+      data: {currentTabId: activeTabId},
     });
 
     document.querySelector(".page__servers_list")?.replaceChildren();
