@@ -36,8 +36,13 @@ After that, navigate to `chrome://extensions`. Enable developer mode and simply 
 
 First, clone the repository:
 
+> [!IMPORTANT]  
+> `NodeJS`, `NPM` and `Make` are required dependencies to build the extension.
+
 ```bash
 git clone https://github.com/zaryo/fangen
+cd fangen
+make build
 ```
 
 After that, go to your browser and load the unpacked extension:

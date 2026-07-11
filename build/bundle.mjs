@@ -1,19 +1,51 @@
 import * as esbuild from "esbuild";
-import {mkdir, rm} from "node:fs/promises";
+import htmlMinifierPlugin from "esbuild-plugin-html-minifier-terser";
+import {dirname, resolve} from "node:path";
+import {fileURLToPath} from "node:url";
 
-const outputDirectory = "dist";
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 export default async function bundleProject() {
-  await rm(outputDirectory, {recursive: true, force: true});
-  await mkdir(outputDirectory, {recursive: true});
-
-  await esbuild.build({
-    bundle: true,
-    entryPoints: ["src/background.ts", "src/main.ts"],
-    format: "esm",
-    outdir: outputDirectory,
-    sourcemap: true,
-    target: "es2024",
-    tsconfig: "tsconfig.json",
-  });
+  await Promise.all([
+    esbuild.build({
+      absWorkingDir: projectRoot,
+      bundle: true,
+      entryPoints: ["src/background.ts", "src/main.ts", "templates/index.html"],
+      entryNames: "[name]",
+      format: "esm",
+      loader: {".html": "copy"},
+      minify: true,
+      outdir: "dist",
+      plugins: [htmlMinifierPlugin()],
+      target: "es2024",
+      treeShaking: true,
+      tsconfig: "tsconfig.json",
+    }),
+    esbuild.build({
+      absWorkingDir: projectRoot,
+      bundle: true,
+      entryPoints: ["resources/css/index.css"],
+      entryNames: "[dir]/[name]",
+      outbase: projectRoot,
+      assetNames: "[dir]/[name]",
+      loader: {
+        ".png": "file",
+        ".svg": "file",
+      },
+      minify: true,
+      outdir: "dist",
+      target: "es2024",
+    }),
+    esbuild.build({
+      absWorkingDir: projectRoot,
+      entryPoints: [
+        "resources/media/icon_32.png",
+        "resources/media/icon_64.png",
+      ],
+      entryNames: "[dir]/[name]",
+      outbase: projectRoot,
+      loader: {".png": "copy"},
+      outdir: "dist",
+    }),
+  ]);
 }

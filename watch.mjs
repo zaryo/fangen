@@ -25,8 +25,8 @@ const extensionRunner = await startBrowser(browserFlag.slice(2));
 
 watch("src", {recursive: false}, rebuild);
 watch("src/types", {recursive: true}, rebuild);
+watch("resources", {recursive: true}, rebuild);
+watch("templates", {recursive: true}, rebuild);
 watch("dist", {recursive: true}, () => reloadExtension(extensionRunner));
-watch("resources", {recursive: true}, () => reloadExtension(extensionRunner));
-watch("templates", {recursive: true}, () => reloadExtension(extensionRunner));
 
 console.log("[watch] Watching for changes...");

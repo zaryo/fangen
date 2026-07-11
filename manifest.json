@@ -8,15 +8,15 @@
   "description": "Find backend streaming services addresses.",
   "action": {
     "default_icon": {
-      "32": "resources/media/icon_32.png",
-      "64": "resources/media/icon_64.png"
+      "32": "dist/resources/media/icon_32.png",
+      "64": "dist/resources/media/icon_64.png"
     },
     "default_title": "Fangen - Find streaming addresses",
-    "default_popup": "templates/index.html"
+    "default_popup": "dist/index.html"
   },
   "icons": {
-    "32": "resources/media/icon_32.png",
-    "64": "resources/media/icon_64.png"
+    "32": "dist/resources/media/icon_32.png",
+    "64": "dist/resources/media/icon_64.png"
   },
   "background": {
     "service_worker": "dist/background.js",

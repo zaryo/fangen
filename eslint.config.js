@@ -1,5 +1,5 @@
-import eslint from "@eslint/js";
 import tsPattern from "@danilqa/eslint-plugin-ts-pattern";
+import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 const eslintConfig = {
