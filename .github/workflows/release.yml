@@ -1,4 +1,4 @@
-name: release-github
+name: release
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+-rc[0-9]+
 
 jobs:
-  build-packed-crx-file:
+  build:
     name: build
     runs-on: ubuntu-latest
     permissions:
@@ -36,11 +36,34 @@ jobs:
           extensionDir: ./
           zipFilePath: fangen.zip
 
-      - name: upload zip artifact
+      - name: pack fangen into crx
+        uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+        with:
+          zipFilePath: fangen.zip
+          crxFilePath: fangen.crx
+          privateKey: ${{ secrets.CHROME_CRX_PRIVATE_KEY }}
+
+      - name: upload crx artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fangen.zip
-          path: fangen.zip
+          name: fangen.crx
+          path: fangen.crx
+
+      - name: sign fangen for firefox
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+          source: fangen.zip
+          artifacts: ./dist
+          channel: unlisted
+          apiKey: ${{ secrets.AMO_JWT_ISSUER }}
+          apiSecret: ${{ secrets.AMO_JWT_SECRET }}
+
+      - name: upload xpi artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fangen.xpi
+          path: dist/*.xpi
 
   release:
     name: release
