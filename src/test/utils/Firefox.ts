@@ -30,12 +30,12 @@ export class Firefox extends Browser {
     this._browser = browser;
 
     const addonId = await browser.installExtension(EXTENSION_PATH);
-    const extensionUuid = await this.pollExtensionUuid(addonId, 1800);
+    const extensionUuid = await this.pollExtensionUuid(addonId, 10000);
 
     this.extensionPage = await browser.newPage();
     await this.extensionPage.goto(
       `moz-extension://${extensionUuid}${EXTENSION_PAGE}`,
-      {timeout: 1800, waitUntil: "commit"},
+      {timeout: 10000, waitUntil: "commit"},
     );
 
     process.on("exit", () => {
