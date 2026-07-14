@@ -67,7 +67,7 @@ jobs:
 
   release:
     name: release
-    needs: build
+    needs: build-packed-crx-file
     runs-on: ubuntu-latest
     permissions:
       contents: write
